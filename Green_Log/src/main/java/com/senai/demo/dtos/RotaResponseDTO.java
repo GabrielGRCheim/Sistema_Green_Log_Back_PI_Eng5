@@ -1,14 +1,11 @@
 package com.senai.demo.dtos;
 
-import com.senai.demo.models.entities.Caminhao;
-import com.senai.demo.models.entities.Rota;
-
 import java.time.LocalDateTime;
 
 public class RotaResponseDTO {
 
     private Long id;
-    private Caminhao caminhaoDesignado;
+    private CaminhaoResponseDTO caminhao;
     private String nome;
     private String bairros;
     private String arestas;
@@ -16,9 +13,12 @@ public class RotaResponseDTO {
     private String residuos_atendidos;
     private LocalDateTime dataCriacao;
 
-    public RotaResponseDTO(Long id, Caminhao caminhaoDesignado, String nome, String bairros, String arestas, Float distancia_total, String residuos_atendidos, LocalDateTime dataCriacao) {
+    public RotaResponseDTO(Long id, CaminhaoResponseDTO caminhao, String nome, String bairros,
+                           String arestas, Float distancia_total, String residuos_atendidos,
+                           LocalDateTime dataCriacao) {
+
         this.id = id;
-        this.caminhaoDesignado = caminhaoDesignado;
+        this.caminhao = caminhao;
         this.nome = nome;
         this.bairros = bairros;
         this.arestas = arestas;
@@ -38,12 +38,12 @@ public class RotaResponseDTO {
         this.id = id;
     }
 
-    public Caminhao getCaminhaoDesignado() {
-        return caminhaoDesignado;
+    public CaminhaoResponseDTO getCaminhao() {
+        return caminhao;
     }
 
-    public void setCaminhaoDesignado(Caminhao caminhaoDesignado) {
-        this.caminhaoDesignado = caminhaoDesignado;
+    public void setCaminhao(CaminhaoResponseDTO caminhao) {
+        this.caminhao = caminhao;
     }
 
     public String getNome() {

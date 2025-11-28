@@ -6,7 +6,7 @@ import com.senai.demo.models.entities.PontoColeta;
 public class PontoColetaResponseDTO {
 
     private Long id;
-    private Bairro bairro;
+    private BairroResponseDTO bairro;
     private String nome;
     private String responsavel;
     private String telefoneResponsavel;
@@ -14,7 +14,9 @@ public class PontoColetaResponseDTO {
     private String endereco;
     private String tiposResiduoAceitos;
 
-    public PontoColetaResponseDTO(Long id, Bairro bairro, String nome, String responsavel, String telefoneResponsavel, String emailResponsavel, String endereco, String tiposResiduoAceitos) {
+    public PontoColetaResponseDTO(Long id, BairroResponseDTO bairro, String nome, String responsavel,
+                                  String telefoneResponsavel, String emailResponsavel,
+                                  String endereco, String tiposResiduoAceitos) {
         this.id = id;
         this.bairro = bairro;
         this.nome = nome;
@@ -35,11 +37,11 @@ public class PontoColetaResponseDTO {
         this.id = id;
     }
 
-    public Bairro getBairro() {
+    public BairroResponseDTO getBairro() {
         return bairro;
     }
 
-    public void setBairro(Bairro bairro) {
+    public void setBairro(BairroResponseDTO bairro) {
         this.bairro = bairro;
     }
 

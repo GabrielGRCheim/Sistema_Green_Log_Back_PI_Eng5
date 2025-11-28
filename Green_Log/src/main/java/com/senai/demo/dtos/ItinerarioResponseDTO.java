@@ -1,42 +1,38 @@
 package com.senai.demo.dtos;
 
-import com.senai.demo.models.entities.Caminhao;
-import com.senai.demo.models.entities.Itinerario;
-import com.senai.demo.models.entities.Rota;
-
 import java.time.LocalDate;
 
 public class ItinerarioResponseDTO {
 
     private Long id;
-    private Caminhao caminhao;
-    private Rota rota;
+    private CaminhaoResponseDTO caminhao;
+    private RotaResponseDTO rota;
     private LocalDate dia;
 
-    public ItinerarioResponseDTO(Long id, Caminhao caminhao, Rota rota, LocalDate dia) {
+    public ItinerarioResponseDTO(Long id, CaminhaoResponseDTO caminhao, RotaResponseDTO rota, LocalDate dia) {
         this.id = id;
+        this.dia = dia;
         this.caminhao = caminhao;
         this.rota = rota;
-        this.dia = dia;
     }
 
     public Long getId() {
         return id;
     }
 
-    public Caminhao getCaminhao() {
+    public CaminhaoResponseDTO getCaminhao() {
         return caminhao;
     }
 
-    public void setCaminhao(Caminhao caminhao) {
+    public void setCaminhao(CaminhaoResponseDTO caminhao) {
         this.caminhao = caminhao;
     }
 
-    public Rota getRota() {
+    public RotaResponseDTO getRota() {
         return rota;
     }
 
-    public void setRota(Rota rota) {
+    public void setRota(RotaResponseDTO rota) {
         this.rota = rota;
     }
 

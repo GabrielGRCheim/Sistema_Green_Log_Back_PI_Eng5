@@ -8,11 +8,13 @@ public class BairroRequestDTO {
         this.nome = nome;
     }
 
-    public BairroRequestDTO() {
-    }
+    public BairroRequestDTO() {}
 
     public String getNome() {
         return nome;
     }
-    public void setNome(String nome) {}
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 }
