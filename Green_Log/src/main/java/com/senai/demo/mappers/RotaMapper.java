@@ -1,7 +1,9 @@
 package com.senai.demo.mappers;
 
+import com.senai.demo.dtos.CaminhaoResponseDTO;
 import com.senai.demo.dtos.RotaRequestDTO;
 import com.senai.demo.dtos.RotaResponseDTO;
+import com.senai.demo.models.entities.Caminhao;
 import com.senai.demo.models.entities.Rota;
 
 import java.util.List;
@@ -9,7 +11,7 @@ import java.util.stream.Collectors;
 
 public class RotaMapper {
 
-    // RequestDTO → Entity
+    // RequestDTO → Entity (sem buscar caminhão!)
     public static Rota toEntity(RotaRequestDTO dto) {
         if (dto == null) return null;
 
@@ -19,7 +21,8 @@ public class RotaMapper {
         rota.setArestas(dto.getArestas());
         rota.setDistancia_total(dto.getDistancia_total());
         rota.setResiduos_atendidos(dto.getResiduos_atendidos());
-        rota.setCaminhaoDesignado(dto.getCaminhaoDesignado());
+
+        // Aqui NÃO seta caminhaoDesignado, isso é feito no service após buscar pelo ID
 
         return rota;
     }
@@ -28,9 +31,22 @@ public class RotaMapper {
     public static RotaResponseDTO toDTO(Rota rota) {
         if (rota == null) return null;
 
+        Long caminhaoId = null;
+        CaminhaoResponseDTO caminhaoDTO = null;
+        if (rota.getCaminhaoDesignado() != null) {
+            Caminhao caminhao = rota.getCaminhaoDesignado();
+            caminhaoDTO = new CaminhaoResponseDTO(
+                    caminhao.getId(),
+                    caminhao.getNomeResponsavel(),
+                    caminhao.getPlaca(),
+                    caminhao.getCapacidade(),
+                    caminhao.getResiduo()
+            );
+        }
+
         return new RotaResponseDTO(
                 rota.getId(),
-                rota.getCaminhaoDesignado(),
+                caminhaoDTO,
                 rota.getNome(),
                 rota.getBairros(),
                 rota.getArestas(),
@@ -39,6 +55,8 @@ public class RotaMapper {
                 rota.getDataCriacao()
         );
     }
+
+
 
     // Atualizar entidade existente a partir do DTO
     public static void updateEntity(Rota rota, RotaRequestDTO dto) {
@@ -49,7 +67,8 @@ public class RotaMapper {
         rota.setArestas(dto.getArestas());
         rota.setDistancia_total(dto.getDistancia_total());
         rota.setResiduos_atendidos(dto.getResiduos_atendidos());
-        rota.setCaminhaoDesignado(dto.getCaminhaoDesignado());
+
+        // caminhaoDesignado também será setado no service após buscar pelo ID
     }
 
     // Lista de entidades → Lista de DTO

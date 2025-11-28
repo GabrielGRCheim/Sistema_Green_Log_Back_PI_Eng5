@@ -1,15 +1,14 @@
 package com.senai.demo.dtos;
 
-import com.senai.demo.models.entities.Caminhao;
 import jakarta.validation.constraints.NotBlank;
-
+import jakarta.validation.constraints.NotNull;
 
 public class RotaRequestDTO {
 
-    @NotBlank(message = "Caminhao é obrigatorio")
-    private Caminhao caminhaoDesignado;
+    @NotNull(message = "O ID do caminhão é obrigatório")
+    private Long caminhaoId;
 
-    @NotBlank(message = "Nome é obrigatorio")
+    @NotBlank(message = "Nome é obrigatório")
     private String nome;
 
     private String bairros;
@@ -18,20 +17,18 @@ public class RotaRequestDTO {
 
     private Float distancia_total;
 
-    @NotBlank(message = "Residuos é obrigatorio")
+    @NotBlank(message = "Resíduos atendidos é obrigatório")
     private String residuos_atendidos;
-
 
     public RotaRequestDTO() {
     }
 
-
-    public Caminhao getCaminhaoDesignado() {
-        return caminhaoDesignado;
+    public Long getCaminhaoId() {
+        return caminhaoId;
     }
 
-    public void setCaminhaoDesignado(Caminhao caminhaoDesignado) {
-        this.caminhaoDesignado = caminhaoDesignado;
+    public void setCaminhaoId(Long caminhaoId) {
+        this.caminhaoId = caminhaoId;
     }
 
     public String getNome() {

@@ -2,36 +2,34 @@ package com.senai.demo.dtos;
 
 import com.senai.demo.models.entities.Bairro;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class PontoColetaRequestDTO {
 
-    @NotBlank(message = "Bairro é obrigatorio")
-    private Bairro bairro;
+    @NotNull(message = "Bairro é obrigatorio")
+    private Long bairroId;
 
     @NotBlank(message = "Nome é obrigatorio")
     private String nome;
 
     private String responsavel;
-
     private String telefoneResponsavel;
-
     private String emailResponsavel;
-
     private String endereco;
-
     private String horarioFuncionamento;
-    @NotBlank(message = "Residous são obrigatorios")
+
+    @NotBlank(message = "Resíduos são obrigatorios")
     private String tiposResiduoAceitos;
 
     public PontoColetaRequestDTO() {
     }
 
-    public Bairro getBairro() {
-        return bairro;
+    public Long getBairroId() {
+        return bairroId;
     }
 
-    public void setBairro(Bairro bairro) {
-        this.bairro = bairro;
+    public void setBairroId(Long bairroId) {
+        this.bairroId = bairroId;
     }
 
     public String getNome() {

@@ -4,36 +4,37 @@ import com.senai.demo.models.entities.Caminhao;
 import com.senai.demo.models.entities.Itinerario;
 import com.senai.demo.models.entities.Rota;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
 public class ItinerarioRequestDTO {
 
-    @NotBlank(message = "Caminhão é obrigatorio")
-    private Caminhao caminhao;
+    @NotNull(message = "Caminhão é obrigatório")
+    private Long caminhaoId;
 
-    @NotBlank(message = "Rota deve ser selecionada")
-    private Rota rota;
+    @NotNull(message = "Rota é obrigatória")
+    private Long rotaId;
 
-    @NotBlank(message = "Data é obrigatoria")
+    @NotNull(message = "Data é obrigatória")
     private LocalDate dia;
 
     public ItinerarioRequestDTO() {}
 
-    public Caminhao getCaminhao() {
-        return caminhao;
+    public Long getCaminhaoId() {
+        return caminhaoId;
     }
 
-    public void setCaminhao(Caminhao caminhao) {
-        this.caminhao = caminhao;
+    public void setCaminhaoId(Long caminhaoId) {
+        this.caminhaoId = caminhaoId;
     }
 
-    public Rota getRota() {
-        return rota;
+    public Long getRotaId() {
+        return rotaId;
     }
 
-    public void setRota(Rota rota) {
-        this.rota = rota;
+    public void setRotaId(Long rotaId) {
+        this.rotaId = rotaId;
     }
 
     public LocalDate getDia() {
