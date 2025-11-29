@@ -1,4 +1,4 @@
-package com.senai.demo.models.exceptions;
+package com.senai.demo.models.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

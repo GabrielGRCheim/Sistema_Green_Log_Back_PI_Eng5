@@ -36,7 +36,7 @@ public class UsuarioService {
         return UsuarioMapper.toDTOList(repository.findAll());
     }
 
-    public UsuarioResponseDTO EncotarPorId(Long id) {
+    public UsuarioResponseDTO EncontrarPorId(Long id) {
         Usuario entity = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado com ID: " + id));
         return UsuarioMapper.toDTO(entity);
