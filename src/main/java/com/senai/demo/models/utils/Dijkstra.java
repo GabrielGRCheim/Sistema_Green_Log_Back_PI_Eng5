@@ -58,6 +58,7 @@ public class Dijkstra {
             RuaConexao inversa = new RuaConexao(
                     conexao.getId(),
                     conexao.getDestinoId(),
+                    conexao.getNome(),
                     conexao.getOrigemId(),
                     conexao.getDistancia());
             grafo.computeIfAbsent(inversa.getOrigemId(), k -> new ArrayList<>()).add(inversa);

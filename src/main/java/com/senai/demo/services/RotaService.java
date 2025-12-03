@@ -1,17 +1,13 @@
 package com.senai.demo.services;
 
-import com.senai.demo.dtos.CaminhaoResponseDTO;
 import com.senai.demo.dtos.RotaRequestDTO;
 import com.senai.demo.dtos.RotaResponseDTO;
-import com.senai.demo.dtos.UsuarioResponseDTO;
-import com.senai.demo.mappers.CaminhaoMapper;
 import com.senai.demo.mappers.RotaMapper;
-import com.senai.demo.mappers.UsuarioMapper;
 import com.senai.demo.models.entities.*;
 import com.senai.demo.models.enums.TipoResiduo;
 import com.senai.demo.models.exceptions.NotFoundException;
-import com.senai.demo.models.padraoprojeto.factory.ResiduoFactory;
 import com.senai.demo.models.padraoprojeto.factory.RotaFactory;
+import com.senai.demo.models.padraoprojeto.singleton.LogEventoSingleton;
 import com.senai.demo.models.repositorys.*;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class RotaService {
@@ -122,6 +117,8 @@ public class RotaService {
         Rota rota = rotaRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Rota não encontrado com ID: " + id));
         rota.setAtivo(ativo);
+        LogEventoSingleton log = LogEventoSingleton.getInstance();
+        log.registrar("Status da Rota " + id + " alterado para " + ativo);
         rotaRepository.save(rota);
         return RotaMapper.toDTO(rota);
     }

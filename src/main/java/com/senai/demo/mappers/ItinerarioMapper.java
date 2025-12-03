@@ -109,8 +109,9 @@ public class ItinerarioMapper {
     public static void updateEntity(Itinerario entity, ItinerarioRequestDTO dto) {
         if (entity == null || dto == null) return;
 
-        entity.setDia(dto.getDia());
-        // Caminhão e Rota setados no service
+        if(dto.getDia() != null) {entity.setDia(dto.getDia());}
+        if(dto.getCaminhaoId() != null) {entity.setCaminhao(entity.getCaminhao());}
+        if(dto.getRotaId() != null){entity.setRota(entity.getRota());}
     }
 
     // LISTA → DTO LIST         //

@@ -35,7 +35,7 @@ public class UsuarioController {
 
     // Listar todos Ativos
     @GetMapping("/ativos")
-    public ResponseEntity<List<UsuarioResponseDTO>> listarUsuariosAtivos() {
+    public ResponseEntity<List<UsuarioResponseDTO>> listarAtivos() {
         return ResponseEntity.ok(service.listarAtivos());
     }
 
@@ -52,7 +52,7 @@ public class UsuarioController {
         return ResponseEntity.ok(service.atualizar(id, dto));
     }
 
-    // Atualizar
+    // Atualizar Status
     @PutMapping("/status/{id}")
     public ResponseEntity<UsuarioResponseDTO> alterarStatus(@PathVariable Long id,
                                                         @RequestBody boolean status) {

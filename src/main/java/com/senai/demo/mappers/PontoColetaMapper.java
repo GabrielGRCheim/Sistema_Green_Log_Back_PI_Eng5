@@ -80,13 +80,12 @@ public class PontoColetaMapper {
     public static void updateEntity(PontoColeta ponto, PontoColetaRequestDTO dto) {
         if (ponto == null || dto == null) return;
 
-        ponto.setNome(dto.getNome());
-        ponto.setResponsavel(dto.getResponsavel());
-        ponto.setTelefoneResponsavel(dto.getTelefoneResponsavel());
-        ponto.setEmailResponsavel(dto.getEmailResponsavel());
-        ponto.setEndereco(dto.getEndereco());
-        ponto.setTiposResiduos(new HashSet<>(dto.getTiposResiduos()));
-
+        if (dto.getNome() != null) {ponto.setNome(dto.getNome());}
+        if(dto.getResponsavel() != null) {ponto.setResponsavel(dto.getResponsavel());}
+        if(dto.getTelefoneResponsavel() != null) {ponto.setTelefoneResponsavel(dto.getTelefoneResponsavel());}
+        if(dto.getEmailResponsavel() != null) {ponto.setEmailResponsavel(dto.getEmailResponsavel());}
+        if(dto.getEndereco() != null) {ponto.setEndereco(dto.getEndereco());}
+        if(dto.getTiposResiduos() != null) {ponto.setTiposResiduos(new  HashSet<>(dto.getTiposResiduos()));}
     }
 
     // LISTA → DTO LIST         //

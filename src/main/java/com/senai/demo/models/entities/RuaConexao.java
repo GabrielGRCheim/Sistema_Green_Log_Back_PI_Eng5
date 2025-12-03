@@ -10,6 +10,9 @@ public class RuaConexao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "Nomes")
+    private String nome;
+
     @Column(name = "Bairros_Origens_Id", nullable = false)
     private Long origemId;
 
@@ -19,15 +22,17 @@ public class RuaConexao {
     @Column(name = "Distancias_km",nullable = false)
     private Float distancia;
 
-    public RuaConexao(Long origemId, Long destinoId, Float distancia) {
+    public RuaConexao(Long origemId, String nome, Long destinoId, Float distancia) {
         this.origemId = origemId;
+        this.nome = nome;
         this.destinoId = destinoId;
         this.distancia = distancia;
     }
 
-    public RuaConexao(Long id, Long origemId, Long destinoId, Float distancia) {
+    public RuaConexao(Long id, Long origemId, String nome, Long destinoId, Float distancia) {
         this.id = id;
         this.origemId = origemId;
+        this.nome = nome;
         this.destinoId = destinoId;
         this.distancia = distancia;
     }
@@ -60,5 +65,13 @@ public class RuaConexao {
 
     public void setDistancia(Float distancia) {
         this.distancia = distancia;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 }

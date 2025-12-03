@@ -91,9 +91,11 @@ public class RotaMapper {
     // UPDATE DE ENTITY         //
 
     public static void updateEntity(Rota rota, RotaRequestDTO dto) {
-        rota.setNome(dto.getNome());
-        rota.setBairros(listLongToString(dto.getBairros()));
-        rota.setArestas(listLongToString(dto.getArestas()));
+        if(rota == null || dto == null) return;
+
+        if(dto.getNome() != null) {rota.setNome(dto.getNome());}
+        if(dto.getBairros() != null) {rota.setBairros(listLongToString(dto.getBairros()));}
+        if(dto.getArestas() != null) {rota.setArestas(listLongToString(dto.getArestas()));}
     }
 
     // LISTA → DTO LIST         //

@@ -1,7 +1,8 @@
-package com.senai.demo.models.utils;
+package com.senai.demo.controllers;
 
 import com.senai.demo.dtos.BairroResponseDTO;
 import com.senai.demo.dtos.RuaConexaoResponseDTO;
+import com.senai.demo.services.GrafoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

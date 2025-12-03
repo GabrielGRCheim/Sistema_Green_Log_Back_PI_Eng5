@@ -4,6 +4,7 @@ import com.senai.demo.dtos.RuaConexaoRequestDTO;
 import com.senai.demo.dtos.RuaConexaoResponseDTO;
 import com.senai.demo.mappers.RuaConexaoMapper;
 import com.senai.demo.models.entities.RuaConexao;
+import com.senai.demo.models.repositorys.BairroRepository;
 import com.senai.demo.models.repositorys.RuaConexaoRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
@@ -15,11 +16,17 @@ public class RuaConexaoService {
 
     private final RuaConexaoRepository repository;
 
-    public RuaConexaoService(RuaConexaoRepository repository) {
+    private final BairroRepository bairroRepository;
+
+    public RuaConexaoService(RuaConexaoRepository repository, BairroRepository bairroRepository) {
         this.repository = repository;
+        this.bairroRepository = bairroRepository;
     }
 
     public RuaConexaoResponseDTO criarRuaConexao(RuaConexaoRequestDTO dto) {
+        if(dto.getNome().isBlank()){
+            dto.setNome(bairroRepository.findById(dto.getOrigemId()).get().getNome() + " para " + bairroRepository.findById(dto.getDestinoId()).get().getNome());
+        }
         RuaConexao entity = RuaConexaoMapper.toEntity(dto);
         RuaConexao saved = repository.save(entity);
         return RuaConexaoMapper.toDTO(saved);

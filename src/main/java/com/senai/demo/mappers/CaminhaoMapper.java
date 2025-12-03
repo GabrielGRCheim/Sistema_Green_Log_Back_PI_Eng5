@@ -15,24 +15,6 @@ import java.util.stream.Collectors;
 
 public class CaminhaoMapper {
 
-    // CONVERSORES MANUAIS     //
-
-    private static String listEnumToString(List<TipoResiduo> list) {
-        if (list == null || list.isEmpty()) return "";
-        return list.stream()
-                .map(Enum::name)
-                .collect(Collectors.joining(","));
-    }
-
-    private static List<TipoResiduo> stringToListEnum(String str) {
-        if (str == null || str.isBlank()) return new ArrayList<>();
-
-        return Arrays.stream(str.replace(" ", "").toUpperCase().trim().split(","))
-                .filter(s -> !s.isBlank())
-                .map(TipoResiduo::valueOf)
-                .collect(Collectors.toList());
-    }
-
     // MAPEAMENTO DTO → ENTITY //
 
     public static Caminhao toEntity(CaminhaoRequestDTO dto) {
@@ -80,10 +62,9 @@ public class CaminhaoMapper {
     public static void updateEntity(Caminhao caminhao, CaminhaoRequestDTO dto) {
         if (dto == null || caminhao == null) return;
 
-        caminhao.setPlaca(dto.getPlaca());
-        caminhao.setCapacidade(dto.getCapacidade());
-        caminhao.setTiposResiduos(new HashSet<>(dto.getTiposResiduos()));
-        ;
+        if(dto.getPlaca() != null) {caminhao.setPlaca(dto.getPlaca());}
+        if(dto.getCapacidade() != null) {caminhao.setCapacidade(dto.getCapacidade());}
+        if(dto.getTiposResiduos() != null) {caminhao.setTiposResiduos(new  HashSet<>(dto.getTiposResiduos()));}
     }
 
     // LISTA → DTO LIST         //

@@ -1,7 +1,5 @@
 package com.senai.demo.dtos;
 
-import com.senai.demo.models.entities.Usuario;
-
 public class UsuarioResponseDTO {
 
     private Long id;
@@ -13,6 +11,7 @@ public class UsuarioResponseDTO {
         this.id = id;
         this.nome = nome;
         this.email = email;
+        this.ativo = ativo;
     }
 
     public UsuarioResponseDTO() {

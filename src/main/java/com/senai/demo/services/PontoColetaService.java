@@ -1,18 +1,14 @@
 package com.senai.demo.services;
 
-import com.senai.demo.dtos.CaminhaoResponseDTO;
 import com.senai.demo.dtos.PontoColetaRequestDTO;
 import com.senai.demo.dtos.PontoColetaResponseDTO;
-import com.senai.demo.dtos.RotaResponseDTO;
-import com.senai.demo.mappers.CaminhaoMapper;
 import com.senai.demo.mappers.PontoColetaMapper;
-import com.senai.demo.mappers.RotaMapper;
 import com.senai.demo.models.entities.Bairro;
-import com.senai.demo.models.entities.Caminhao;
 import com.senai.demo.models.entities.PontoColeta;
 import com.senai.demo.models.enums.TipoResiduo;
 import com.senai.demo.models.exceptions.BadRequestException;
 import com.senai.demo.models.exceptions.NotFoundException;
+import com.senai.demo.models.padraoprojeto.singleton.LogEventoSingleton;
 import com.senai.demo.models.repositorys.BairroRepository;
 import com.senai.demo.models.repositorys.PontoColetaRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -89,6 +85,8 @@ public class PontoColetaService {
         PontoColeta pontoColeta = pontoColetaRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Ponto de Coleta não encontrado com ID: " + id));
         pontoColeta.setAtivo(ativo);
+        LogEventoSingleton log = LogEventoSingleton.getInstance();
+        log.registrar("Status do Ponto de Coleta " + id + " alterado para " + ativo);
         pontoColetaRepository.save(pontoColeta);
         return PontoColetaMapper.toDTO(pontoColeta);
     }

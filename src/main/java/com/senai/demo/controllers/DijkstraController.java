@@ -1,7 +1,9 @@
-package com.senai.demo.models.utils;
+package com.senai.demo.controllers;
 
 import com.senai.demo.models.entities.Bairro;
 import com.senai.demo.models.entities.RuaConexao;
+import com.senai.demo.models.utils.Dijkstra;
+import com.senai.demo.services.GrafoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +19,7 @@ public class DijkstraController {
     @Autowired
     private GrafoService grafoService;
 
-    @PostMapping("/caminho-com-paradas")
+    @PostMapping("/caminho_com_paradas")
     public ResponseEntity<Map<String, Object>> calcularCaminhoComParadas(@RequestBody List<Long> listaDeBairros) {
         if (listaDeBairros == null || listaDeBairros.size() < 2) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("erro", "Forneça ao menos dois bairros."));

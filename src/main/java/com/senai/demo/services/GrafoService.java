@@ -1,4 +1,4 @@
-package com.senai.demo.models.utils;
+package com.senai.demo.services;
 
 import com.senai.demo.dtos.BairroResponseDTO;
 import com.senai.demo.dtos.RuaConexaoResponseDTO;

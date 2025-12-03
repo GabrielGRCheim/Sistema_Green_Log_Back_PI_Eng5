@@ -2,6 +2,7 @@ package com.senai.demo.dtos;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import org.hibernate.validator.constraints.br.CPF;
 
 public class MotoristaRequestDTO {
 
@@ -13,6 +14,7 @@ public class MotoristaRequestDTO {
             regexp = "^\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}$",
             message = "CPF inválido. Use o formato 000.000.000-00"
     )
+    @CPF(message = "Digite um CPF Válido!")
     private String cpf;
 
     public MotoristaRequestDTO() {

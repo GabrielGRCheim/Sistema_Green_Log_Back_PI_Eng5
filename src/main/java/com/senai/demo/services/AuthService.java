@@ -29,7 +29,7 @@ public class AuthService {
         if (!senhaCorreta) {
             return new LoginResponseDTO("Erro ao realizar login", false);
         }
-        
+
         if(!usuario.isAtivo()){
             return new LoginResponseDTO("Erro ao realizar login", false);
         }

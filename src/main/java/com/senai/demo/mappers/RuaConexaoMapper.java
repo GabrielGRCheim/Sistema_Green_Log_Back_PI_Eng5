@@ -15,6 +15,7 @@ public class RuaConexaoMapper {
 
         RuaConexao rua = new RuaConexao();
         rua.setOrigemId(dto.getOrigemId());
+        rua.setNome(dto.getNome());
         rua.setDestinoId(dto.getDestinoId());
         rua.setDistancia(dto.getDistancia());
 
@@ -28,6 +29,7 @@ public class RuaConexaoMapper {
         return new RuaConexaoResponseDTO(
                 rua.getId(),
                 rua.getOrigemId(),
+                rua.getNome(),
                 rua.getDestinoId(),
                 rua.getDistancia()
         );
@@ -36,10 +38,18 @@ public class RuaConexaoMapper {
     // Atualizar entidade existente a partir do DTO
     public static void updateEntity(RuaConexao rua, RuaConexaoRequestDTO dto) {
         if (rua == null || dto == null) return;
-
-        rua.setOrigemId(dto.getOrigemId());
-        rua.setDestinoId(dto.getDestinoId());
-        rua.setDistancia(dto.getDistancia());
+        if(dto.getOrigemId() != null){
+            rua.setOrigemId(dto.getOrigemId());
+        }
+        if(dto.getNome() != null){
+            rua.setNome(dto.getNome());
+        }
+        if(dto.getDestinoId() != null){
+            rua.setDestinoId(dto.getDestinoId());
+        }
+        if(dto.getDistancia() != null){
+            rua.setDistancia(dto.getDistancia());
+        }
     }
 
     // Lista de entidades → Lista de DTO

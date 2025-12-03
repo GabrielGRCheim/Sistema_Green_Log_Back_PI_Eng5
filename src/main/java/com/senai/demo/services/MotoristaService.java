@@ -2,14 +2,11 @@ package com.senai.demo.services;
 
 import com.senai.demo.dtos.MotoristaRequestDTO;
 import com.senai.demo.dtos.MotoristaResponseDTO;
-import com.senai.demo.dtos.PontoColetaResponseDTO;
 import com.senai.demo.mappers.MotoristaMapper;
-import com.senai.demo.mappers.PontoColetaMapper;
 import com.senai.demo.models.entities.Motorista;
 import com.senai.demo.models.exceptions.NotFoundException;
+import com.senai.demo.models.padraoprojeto.singleton.LogEventoSingleton;
 import com.senai.demo.models.repositorys.MotoristaRepository;
-import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -62,6 +59,8 @@ public class MotoristaService {
         Motorista motorista = motoristaRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Motorista não encontrado com ID: " + id));
         motorista.setAtivo(ativo);
+        LogEventoSingleton log = LogEventoSingleton.getInstance();
+        log.registrar("Status do Motorista " + id + " alterado para " + ativo);
         motoristaRepository.save(motorista);
         return MotoristaMapper.toDTO(motorista);
     }

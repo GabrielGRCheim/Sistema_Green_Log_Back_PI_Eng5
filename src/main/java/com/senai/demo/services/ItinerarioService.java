@@ -1,16 +1,13 @@
 package com.senai.demo.services;
 
-import com.senai.demo.dtos.CaminhaoResponseDTO;
 import com.senai.demo.dtos.ItinerarioRequestDTO;
 import com.senai.demo.dtos.ItinerarioResponseDTO;
-import com.senai.demo.dtos.PontoColetaResponseDTO;
-import com.senai.demo.mappers.CaminhaoMapper;
 import com.senai.demo.mappers.ItinerarioMapper;
-import com.senai.demo.mappers.PontoColetaMapper;
 import com.senai.demo.models.entities.Caminhao;
 import com.senai.demo.models.entities.Itinerario;
 import com.senai.demo.models.entities.Rota;
 import com.senai.demo.models.exceptions.NotFoundException;
+import com.senai.demo.models.padraoprojeto.singleton.LogEventoSingleton;
 import com.senai.demo.models.repositorys.CaminhaoRepository;
 import com.senai.demo.models.repositorys.ItinerarioRepository;
 import com.senai.demo.models.repositorys.RotaRepository;
@@ -75,9 +72,6 @@ public class ItinerarioService {
 
         ItinerarioMapper.updateEntity(entity, dto);
 
-        entity.setCaminhao(caminhao);
-        entity.setRota(rota);
-
         Itinerario updated = itinerarioRepository.save(entity);
 
         return ItinerarioMapper.toDTO(updated);
@@ -92,6 +86,8 @@ public class ItinerarioService {
         Itinerario itinerario = itinerarioRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Itinerario não encontrado com ID: " + id));
         itinerario.setAtivo(ativo);
+        LogEventoSingleton log = LogEventoSingleton.getInstance();
+        log.registrar("Status do Itinerario " + id + " alterado para " + ativo);
         itinerarioRepository.save(itinerario);
         return ItinerarioMapper.toDTO(itinerario);
     }

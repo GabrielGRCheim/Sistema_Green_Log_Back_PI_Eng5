@@ -2,6 +2,7 @@ package com.senai.demo.controllers;
 
 import com.senai.demo.dtos.CaminhaoRequestDTO;
 import com.senai.demo.dtos.CaminhaoResponseDTO;
+import com.senai.demo.dtos.ItinerarioResponseDTO;
 import com.senai.demo.models.enums.TipoResiduo;
 import com.senai.demo.services.CaminhaoService;
 import jakarta.validation.Valid;
@@ -34,12 +35,17 @@ public class CaminhaoController {
         return ResponseEntity.ok(caminhaoService.listarTodos());
     }
 
+    // Listar todos Ativos
+    @GetMapping("/ativos")
+    public ResponseEntity<List<CaminhaoResponseDTO>> listarAtivos() {
+        return ResponseEntity.ok(caminhaoService.listarAtivos());
+    }
+
     //Listar todos os Residuos Disponiveis no Enum
     @GetMapping("/tipos_residuo")
     public ResponseEntity<List<TipoResiduo>> listarTiposResiduo() {
         return ResponseEntity.ok(caminhaoService.listarTiposResiduo());
     }
-
 
     // Buscar por ID
     @GetMapping("/{id}")

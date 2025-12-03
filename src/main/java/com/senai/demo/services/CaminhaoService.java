@@ -13,6 +13,7 @@ import com.senai.demo.models.enums.TipoResiduo;
 import com.senai.demo.models.exceptions.BadRequestException;
 import com.senai.demo.models.exceptions.ConflictException;
 import com.senai.demo.models.exceptions.NotFoundException;
+import com.senai.demo.models.padraoprojeto.singleton.LogEventoSingleton;
 import com.senai.demo.models.repositorys.CaminhaoRepository;
 import com.senai.demo.models.repositorys.MotoristaRepository;
 import org.springframework.stereotype.Service;
@@ -92,6 +93,8 @@ public class CaminhaoService {
         Caminhao caminhao = caminhaoRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Caminhão não encontrado com ID: " + id));
         caminhao.setAtivo(ativo);
+        LogEventoSingleton log = LogEventoSingleton.getInstance();
+        log.registrar("Status do Caminhão " + id + " alterado para " + ativo);
         caminhaoRepository.save(caminhao);
         return CaminhaoMapper.toDTO(caminhao);
     }

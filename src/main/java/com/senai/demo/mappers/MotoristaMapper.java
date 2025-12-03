@@ -36,8 +36,8 @@ public class MotoristaMapper {
     public static void updateEntity(Motorista motorista, MotoristaRequestDTO dto) {
         if (motorista == null || dto == null) return;
 
-        motorista.setNome(dto.getNome());
-        motorista.setCPF(dto.getCpf());
+        if(dto.getNome() != null) {motorista.setNome(dto.getNome());}
+        if(dto.getCpf() != null) {motorista.setCPF(dto.getCpf());}
     }
 
     // LISTA DE ENTITY → LISTA DE DTO

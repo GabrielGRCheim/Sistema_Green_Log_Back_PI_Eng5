@@ -1,9 +1,10 @@
 package com.senai.demo.dtos;
 
-import com.senai.demo.models.entities.Bairro;
 import com.senai.demo.models.enums.TipoResiduo;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 import java.util.List;
 
@@ -16,8 +17,18 @@ public class PontoColetaRequestDTO {
     private String nome;
 
     private String responsavel;
+
+    @NotBlank(message = "O telefone do responsável é obrigatório")
+    @Pattern(
+            regexp = "\\(?\\d{2}\\)?\\s?9?\\d{4}-?\\d{4}",
+            message = "Digite um telefone válido, ex: (11) 98765-4321"
+    )
     private String telefoneResponsavel;
+
+    @Email(message = "Digite um e-mail válido")
+    @NotBlank(message = "O e-mail do responsável é obrigatório")
     private String emailResponsavel;
+
     private String endereco;
 
     private List<TipoResiduo> tiposResiduos;
