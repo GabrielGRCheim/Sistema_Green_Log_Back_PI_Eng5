@@ -53,6 +53,11 @@ public class CaminhaoController {
         return ResponseEntity.ok(caminhaoService.buscarPorId(id));
     }
 
+    @GetMapping("/filtra_residuo/{residuo}")
+    public ResponseEntity<List<CaminhaoResponseDTO>> buscarPorResiduo(@RequestParam TipoResiduo tipoResiduo) {
+        return ResponseEntity.ok(caminhaoService.listarCaminhoesResiduo(tipoResiduo));
+    }
+
     // Atualizar
     @PutMapping("/{id}")
     public ResponseEntity<CaminhaoResponseDTO> atualizar(

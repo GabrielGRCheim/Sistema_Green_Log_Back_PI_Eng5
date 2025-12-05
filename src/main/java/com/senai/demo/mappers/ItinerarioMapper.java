@@ -3,6 +3,7 @@ package com.senai.demo.mappers;
 import com.senai.demo.dtos.*;
 import com.senai.demo.models.entities.Caminhao;
 import com.senai.demo.models.entities.Itinerario;
+import com.senai.demo.models.entities.Motorista;
 import com.senai.demo.models.entities.Rota;
 import com.senai.demo.models.enums.TipoResiduo;
 
@@ -62,29 +63,35 @@ public class ItinerarioMapper {
     public static ItinerarioResponseDTO toDTO(Itinerario it) {
         if (it == null) return null;
 
-        // ----- Caminhão -----
+        // ----- Rota -----
         CaminhaoResponseDTO caminhaoDTO = null;
-        if (it.getCaminhao() != null) {
-            Caminhao c = it.getCaminhao();
+        RotaResponseDTO rotaDTO = null;
+        MotoristaResponseDTO motoristaDTO = null;
+        if (it.getRota() != null) {
+            Rota r = it.getRota();
+            Caminhao c = r.getCaminhaoDesignado();
+            Motorista m = c.getMotorista();
+
+            motoristaDTO = new MotoristaResponseDTO(
+                    m.getId(),
+                    m.getNome(),
+                    m.getCPF(),
+                    m.isAtivo()
+            );
 
             caminhaoDTO = new CaminhaoResponseDTO(
                     c.getId(),
                     c.getPlaca(),
-                    MotoristaMapper.toDTO(c.getMotorista()),
+                    motoristaDTO,
                     c.getCapacidade(),
                     c.getTiposResiduos().stream().toList(),
                     c.isAtivo()
             );
-        }
 
-        // ----- Rota -----
-        RotaResponseDTO rotaDTO = null;
-        if (it.getRota() != null) {
-            Rota r = it.getRota();
 
             rotaDTO = new RotaResponseDTO(
                     r.getId(),
-                    null,
+                    caminhaoDTO,
                     r.getNome(),
                     stringToListLong(r.getBairros()),
                     stringToListLong(r.getArestas()),
@@ -97,7 +104,6 @@ public class ItinerarioMapper {
 
         return new ItinerarioResponseDTO(
                 it.getId(),
-                caminhaoDTO,
                 rotaDTO,
                 it.getDia(),
                 it.isAtivo()
@@ -110,7 +116,6 @@ public class ItinerarioMapper {
         if (entity == null || dto == null) return;
 
         if(dto.getDia() != null) {entity.setDia(dto.getDia());}
-        if(dto.getCaminhaoId() != null) {entity.setCaminhao(entity.getCaminhao());}
         if(dto.getRotaId() != null){entity.setRota(entity.getRota());}
     }
 

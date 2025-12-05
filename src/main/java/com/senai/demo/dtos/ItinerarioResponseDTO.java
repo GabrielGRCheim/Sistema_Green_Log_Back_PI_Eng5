@@ -5,29 +5,19 @@ import java.time.LocalDate;
 public class ItinerarioResponseDTO {
 
     private Long id;
-    private CaminhaoResponseDTO caminhao;
     private RotaResponseDTO rota;
     private LocalDate dia;
     private boolean ativo;
 
-    public ItinerarioResponseDTO(Long id, CaminhaoResponseDTO caminhao, RotaResponseDTO rota, LocalDate dia,  boolean ativo) {
+    public ItinerarioResponseDTO(Long id, RotaResponseDTO rota, LocalDate dia,  boolean ativo) {
         this.id = id;
         this.dia = dia;
-        this.caminhao = caminhao;
         this.rota = rota;
         this.ativo = ativo;
     }
 
     public Long getId() {
         return id;
-    }
-
-    public CaminhaoResponseDTO getCaminhao() {
-        return caminhao;
-    }
-
-    public void setCaminhao(CaminhaoResponseDTO caminhao) {
-        this.caminhao = caminhao;
     }
 
     public RotaResponseDTO getRota() {

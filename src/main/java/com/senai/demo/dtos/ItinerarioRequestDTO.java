@@ -10,9 +10,6 @@ import java.time.LocalDate;
 
 public class ItinerarioRequestDTO {
 
-    @NotNull(message = "Caminhão é obrigatório")
-    private Long caminhaoId;
-
     @NotNull(message = "Rota é obrigatória")
     private Long rotaId;
 
@@ -20,14 +17,6 @@ public class ItinerarioRequestDTO {
     private LocalDate dia;
 
     public ItinerarioRequestDTO() {}
-
-    public Long getCaminhaoId() {
-        return caminhaoId;
-    }
-
-    public void setCaminhaoId(Long caminhaoId) {
-        this.caminhaoId = caminhaoId;
-    }
 
     public Long getRotaId() {
         return rotaId;
