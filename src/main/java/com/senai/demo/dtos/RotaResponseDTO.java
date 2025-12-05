@@ -1,21 +1,25 @@
 package com.senai.demo.dtos;
 
+import com.senai.demo.models.enums.TipoResiduo;
+
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class RotaResponseDTO {
 
     private Long id;
     private CaminhaoResponseDTO caminhao;
     private String nome;
-    private String bairros;
-    private String arestas;
+    private List<Long> bairros;
+    private List<Long> arestas;
     private Float distancia_total;
-    private String residuos_atendidos;
+    private TipoResiduo tiposResiduos;
     private LocalDateTime dataCriacao;
+    private boolean ativo;
 
-    public RotaResponseDTO(Long id, CaminhaoResponseDTO caminhao, String nome, String bairros,
-                           String arestas, Float distancia_total, String residuos_atendidos,
-                           LocalDateTime dataCriacao) {
+    public RotaResponseDTO(Long id, CaminhaoResponseDTO caminhao, String nome, List<Long> bairros,
+                           List<Long> arestas, Float distancia_total, TipoResiduo tiposResiduos,
+                           LocalDateTime dataCriacao, boolean ativo) {
 
         this.id = id;
         this.caminhao = caminhao;
@@ -23,8 +27,9 @@ public class RotaResponseDTO {
         this.bairros = bairros;
         this.arestas = arestas;
         this.distancia_total = distancia_total;
-        this.residuos_atendidos = residuos_atendidos;
+        this.tiposResiduos = tiposResiduos;
         this.dataCriacao = dataCriacao;
+        this.ativo = ativo;
     }
 
     public RotaResponseDTO() {
@@ -54,19 +59,19 @@ public class RotaResponseDTO {
         this.nome = nome;
     }
 
-    public String getBairros() {
+    public List<Long> getBairros() {
         return bairros;
     }
 
-    public void setBairros(String bairros) {
+    public void setBairros(List<Long> bairros) {
         this.bairros = bairros;
     }
 
-    public String getArestas() {
+    public List<Long> getArestas() {
         return arestas;
     }
 
-    public void setArestas(String arestas) {
+    public void setArestas(List<Long> arestas) {
         this.arestas = arestas;
     }
 
@@ -78,12 +83,12 @@ public class RotaResponseDTO {
         this.distancia_total = distancia_total;
     }
 
-    public String getResiduos_atendidos() {
-        return residuos_atendidos;
+    public TipoResiduo getTiposResiduos() {
+        return tiposResiduos;
     }
 
-    public void setResiduos_atendidos(String residuos_atendidos) {
-        this.residuos_atendidos = residuos_atendidos;
+    public void setTiposResiduos(TipoResiduo tiposResiduos) {
+        this.tiposResiduos = tiposResiduos;
     }
 
     public LocalDateTime getDataCriacao() {
@@ -92,5 +97,13 @@ public class RotaResponseDTO {
 
     public void setDataCriacao(LocalDateTime dataCriacao) {
         this.dataCriacao = dataCriacao;
+    }
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
     }
 }

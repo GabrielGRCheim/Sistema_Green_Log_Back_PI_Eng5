@@ -2,14 +2,23 @@ package com.senai.demo.services;
 
 import com.senai.demo.dtos.CaminhaoRequestDTO;
 import com.senai.demo.dtos.CaminhaoResponseDTO;
+import com.senai.demo.dtos.MotoristaResponseDTO;
+import com.senai.demo.dtos.PontoColetaResponseDTO;
 import com.senai.demo.mappers.CaminhaoMapper;
+import com.senai.demo.mappers.MotoristaMapper;
+import com.senai.demo.mappers.PontoColetaMapper;
 import com.senai.demo.models.entities.Caminhao;
+import com.senai.demo.models.entities.Motorista;
+import com.senai.demo.models.enums.TipoResiduo;
 import com.senai.demo.models.exceptions.BadRequestException;
 import com.senai.demo.models.exceptions.ConflictException;
 import com.senai.demo.models.exceptions.NotFoundException;
+import com.senai.demo.models.padraoprojeto.singleton.LogEventoSingleton;
 import com.senai.demo.models.repositorys.CaminhaoRepository;
+import com.senai.demo.models.repositorys.MotoristaRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,8 +27,11 @@ public class CaminhaoService {
 
     private final CaminhaoRepository caminhaoRepository;
 
-    public CaminhaoService(CaminhaoRepository caminhaoRepository) {
+    private final MotoristaRepository motoristaRepository;
+
+    public CaminhaoService(CaminhaoRepository caminhaoRepository, MotoristaRepository motoristaRepository) {
         this.caminhaoRepository = caminhaoRepository;
+        this.motoristaRepository = motoristaRepository;
     }
 
     // CREATE
@@ -29,8 +41,11 @@ public class CaminhaoService {
         if (caminhaoRepository.findByPlaca(dto.getPlaca()).isPresent()) {
             throw new ConflictException("Já existe um caminhão cadastrado com essa placa.");
         }
+        Motorista motorista = motoristaRepository.findById(dto.getMotorista_id())
+                .orElseThrow(() -> new NotFoundException("Motorista não encontrado."));
 
         Caminhao caminhao = CaminhaoMapper.toEntity(dto);
+        caminhao.setMotorista(motorista);
         Caminhao salvo = caminhaoRepository.save(caminhao);
 
         return CaminhaoMapper.toDTO(salvo);
@@ -67,6 +82,29 @@ public class CaminhaoService {
 
         Caminhao atualizado = caminhaoRepository.save(existente);
         return CaminhaoMapper.toDTO(atualizado);
+    }
+
+    public List<CaminhaoResponseDTO> listarAtivos() {
+        return CaminhaoMapper.toDTOList(caminhaoRepository.findByAtivo(true));
+    }
+
+    public List<CaminhaoResponseDTO> listarCaminhoesResiduo(TipoResiduo tipoResiduo) {
+        return CaminhaoMapper.toDTOList(caminhaoRepository.findByTiposResiduosContains(tipoResiduo));
+    }
+
+    // Ativar/Inativar
+    public CaminhaoResponseDTO alterarStatus(Long id, boolean ativo) {
+        Caminhao caminhao = caminhaoRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Caminhão não encontrado com ID: " + id));
+        caminhao.setAtivo(ativo);
+        LogEventoSingleton log = LogEventoSingleton.getInstance();
+        log.registrar("Status do Caminhão " + id + " alterado para " + ativo);
+        caminhaoRepository.save(caminhao);
+        return CaminhaoMapper.toDTO(caminhao);
+    }
+
+    public List<TipoResiduo> listarTiposResiduo() {
+        return Arrays.stream(TipoResiduo.values()).toList();
     }
 
     // DELETAR

@@ -1,7 +1,7 @@
 package com.senai.demo.models.entities;
 
+import com.senai.demo.models.enums.TipoResiduo;
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
 
 @Entity
@@ -19,28 +19,33 @@ public class Rota {
     @Column(name = "Nomes", nullable = false)
     private String nome;
 
-    @Column(name = "Bairros", nullable = false)
+    @Column(name = "Bairros")
     private String bairros;
 
-    @Column(name = "Arestas", nullable = false)
+    @Column(name = "Arestas")
     private String arestas;
 
     @Column(name = "Distancia_Total", nullable = false)
     private Float distancia_total;
 
-    @Column(name = "Residuos_Atendidos", nullable = false)
-    private String residuos_atendidos;
+    @Column(name = "Tipos_Residuos")
+    @Enumerated(EnumType.STRING)
+    private TipoResiduo tiposResiduos;
+
+    @Column(name = "Ativo")
+    private boolean ativo = true;
 
     @Column(name = "Data_Criacao", updatable = false)
-    private LocalDateTime dataCriacao =  LocalDateTime.now().minusNanos(0);
+    private LocalDateTime dataCriacao =  LocalDateTime.now().withNano(0);
 
-    public Rota(Float distancia_total, String residuos_atendidos, String arestas, String bairros, String nome, Caminhao caminhaoDesignado) {
+    public Rota(Float distancia_total, TipoResiduo tiposResiduos, String bairros, String arestas, String nome, Caminhao caminhaoDesignado, boolean ativo) {
         this.distancia_total = distancia_total;
-        this.residuos_atendidos = residuos_atendidos;
+        this.tiposResiduos = tiposResiduos;
         this.arestas = arestas;
         this.bairros = bairros;
         this.nome = nome;
         this.caminhaoDesignado = caminhaoDesignado;
+        this.ativo = ativo;
     }
 
     public Rota() {}
@@ -65,6 +70,18 @@ public class Rota {
         this.nome = nome;
     }
 
+    public void setDataCriacao(LocalDateTime dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
+
+    public Float getDistancia_total() {
+        return distancia_total;
+    }
+
+    public void setDistancia_total(Float distancia_total) {
+        this.distancia_total = distancia_total;
+    }
+
     public String getBairros() {
         return bairros;
     }
@@ -81,23 +98,23 @@ public class Rota {
         this.arestas = arestas;
     }
 
-    public Float getDistancia_total() {
-        return distancia_total;
+    public TipoResiduo getTiposResiduos() {
+        return tiposResiduos;
     }
 
-    public void setDistancia_total(Float distancia_total) {
-        this.distancia_total = distancia_total;
-    }
-
-    public String getResiduos_atendidos() {
-        return residuos_atendidos;
-    }
-
-    public void setResiduos_atendidos(String residuos_atendidos) {
-        this.residuos_atendidos = residuos_atendidos;
+    public void setTiposResiduos(TipoResiduo tiposResiduos) {
+        this.tiposResiduos = tiposResiduos;
     }
 
     public LocalDateTime getDataCriacao() {
         return dataCriacao;
+    }
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
     }
 }

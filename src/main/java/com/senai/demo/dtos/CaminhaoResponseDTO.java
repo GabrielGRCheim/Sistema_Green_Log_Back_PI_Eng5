@@ -1,21 +1,26 @@
 package com.senai.demo.dtos;
 
-import com.senai.demo.models.entities.Caminhao;
+import com.senai.demo.models.entities.Motorista;
+import com.senai.demo.models.enums.TipoResiduo;
+
+import java.util.List;
 
 public class CaminhaoResponseDTO {
 
     private Long id;
     private String placa;
-    private String nomeResponsavel;
+    private MotoristaResponseDTO motorista;
     private Double capacidade;
-    private String residuo;
+    private List<TipoResiduo> tiposResiduos;
+    private boolean ativo;
 
-    public CaminhaoResponseDTO(Long id, String placa, String nomeResponsavel, Double capacidade, String residuo) {
+    public CaminhaoResponseDTO(Long id, String placa, MotoristaResponseDTO motorista, Double capacidade, List<TipoResiduo> tiposResiduos, boolean ativo) {
         this.id = id;
         this.placa = placa;
-        this.nomeResponsavel = nomeResponsavel;
+        this.motorista = motorista;
         this.capacidade = capacidade;
-        this.residuo = residuo;
+        this.tiposResiduos = tiposResiduos;
+        this.ativo = ativo;
     }
 
     public CaminhaoResponseDTO() {}
@@ -36,12 +41,12 @@ public class CaminhaoResponseDTO {
         this.placa = placa;
     }
 
-    public String getNomeResponsavel() {
-        return nomeResponsavel;
+    public MotoristaResponseDTO getMotorista() {
+        return motorista;
     }
 
-    public void setNomeResponsavel(String nomeResponsavel) {
-        this.nomeResponsavel = nomeResponsavel;
+    public void setMotorista(MotoristaResponseDTO motorista) {
+        this.motorista = motorista;
     }
 
     public Double getCapacidade() {
@@ -52,11 +57,19 @@ public class CaminhaoResponseDTO {
         this.capacidade = capacidade;
     }
 
-    public String getResiduo() {
-        return residuo;
+    public List<TipoResiduo> getTiposResiduos() {
+        return tiposResiduos;
     }
 
-    public void setResiduo(String residuo) {
-        this.residuo = residuo;
+    public void setTiposResiduos(List<TipoResiduo> tiposResiduos) {
+        this.tiposResiduos = tiposResiduos;
+    }
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
     }
 }

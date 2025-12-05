@@ -1,6 +1,12 @@
 package com.senai.demo.models.entities;
 
+import com.senai.demo.models.enums.TipoResiduo;
+import com.senai.demo.models.padraoprojeto.decorator.Residuos;
+import com.senai.demo.models.padraoprojeto.factory.ResiduoFactory;
 import jakarta.persistence.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "Pontos_Coletas")
@@ -29,17 +35,35 @@ public class PontoColeta {
     @Column(name = "Enderecos")
     private String endereco;
 
-    @Column(name = "tipos_residuo_aceitos")
-    private String tiposResiduoAceitos;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(
+            name = "ponto_residuos",
+            joinColumns = @JoinColumn(name = "ponto_id")
+    )
+    @Column(name = "tipo_residuo")
+    private Set<TipoResiduo> tiposResiduos = new HashSet<>();
 
-    public PontoColeta(Bairro bairro, String nome, String responsavel, String telefoneResponsavel, String emailResponsavel, String endereco, String tiposResiduoAceitos) {
+    @Column(name = "Ativo")
+    private boolean ativo = true;
+
+    @Transient
+    private Residuos residuosDecorator;
+
+    @PostLoad
+    private void initDecorator() {
+        this.residuosDecorator = ResiduoFactory.criar(tiposResiduos.stream().toList());
+    }
+
+    public PontoColeta(Bairro bairro, String nome, String responsavel, String telefoneResponsavel, String emailResponsavel, String endereco, Set<TipoResiduo> tiposResiduos, boolean ativo) {
         this.bairro = bairro;
         this.nome = nome;
         this.responsavel = responsavel;
         this.telefoneResponsavel = telefoneResponsavel;
         this.emailResponsavel = emailResponsavel;
         this.endereco = endereco;
-        this.tiposResiduoAceitos = tiposResiduoAceitos;
+        this.tiposResiduos = tiposResiduos;
+        this.ativo = ativo;
     }
 
     public PontoColeta() {}
@@ -96,12 +120,21 @@ public class PontoColeta {
         this.endereco = endereco;
     }
 
-    public String getTiposResiduoAceitos() {
-        return tiposResiduoAceitos;
+    public Set<TipoResiduo> getTiposResiduos() {
+        return tiposResiduos;
     }
 
-    public void setTiposResiduoAceitos(String tiposResiduoAceitos) {
-        this.tiposResiduoAceitos = tiposResiduoAceitos;
+    public void setTiposResiduos(Set<TipoResiduo> tipos) {
+        this.tiposResiduos = tipos;
+        this.residuosDecorator = ResiduoFactory.criar(tipos.stream().toList());
+    }
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
     }
 }
 

@@ -3,70 +3,124 @@ package com.senai.demo.mappers;
 import com.senai.demo.dtos.*;
 import com.senai.demo.models.entities.Caminhao;
 import com.senai.demo.models.entities.Itinerario;
+import com.senai.demo.models.entities.Motorista;
 import com.senai.demo.models.entities.Rota;
+import com.senai.demo.models.enums.TipoResiduo;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class ItinerarioMapper {
 
-    // REQUEST DTO → ENTIDADE (somente IDs, entidades serão buscadas no service)
+    // CONVERSORES MANUAIS     //
+
+    private static String listLongToString(List<Long> list) {
+        if (list == null || list.isEmpty()) return "";
+        return list.stream()
+                .map(String::valueOf)
+                .collect(Collectors.joining(";"));
+    }
+
+    private static List<Long> stringToListLong(String str) {
+        if (str == null || str.isBlank()) return new ArrayList<>();
+
+        return Arrays.stream(str.split(";"))
+                .filter(s -> !s.isBlank())
+                .map(Long::valueOf)
+                .collect(Collectors.toList());
+    }
+
+    private static String listEnumToString(List<TipoResiduo> list) {
+        if (list == null || list.isEmpty()) return "";
+        return list.stream()
+                .map(Enum::name)
+                .collect(Collectors.joining(";"));
+    }
+
+    private static List<TipoResiduo> stringToListEnum(String str) {
+        if (str == null || str.isBlank()) return new ArrayList<>();
+
+        return Arrays.stream(str.split(";"))
+                .filter(s -> !s.isBlank())
+                .map(TipoResiduo::valueOf)
+                .collect(Collectors.toList());
+    }
+
+    // MAPEAMENTO DTO → ENTITY //
+
     public static Itinerario toEntity(ItinerarioRequestDTO dto) {
         if (dto == null) return null;
 
-        Itinerario itinerario = new Itinerario();
-        itinerario.setDia(dto.getDia());
-        // Caminhão e Rota serão setados no service após buscar no banco
-        return itinerario;
+        Itinerario it = new Itinerario();
+        it.setDia(dto.getDia());
+        return it;
     }
 
-    // ENTIDADE → RESPONSE DTO (somente IDs)
-    public static ItinerarioResponseDTO toDTO(Itinerario itinerario) {
-        if (itinerario == null) return null;
+    // MAPEAMENTO ENTITY → DTO //
+
+    public static ItinerarioResponseDTO toDTO(Itinerario it) {
+        if (it == null) return null;
+
+        // ----- Rota -----
         CaminhaoResponseDTO caminhaoDTO = null;
-        if (itinerario.getCaminhao() != null) {
-            Caminhao caminhao = itinerario.getCaminhao();
-            caminhaoDTO = new CaminhaoResponseDTO(
-                    caminhao.getId(),
-                    caminhao.getNomeResponsavel(),
-                    caminhao.getPlaca(),
-                    caminhao.getCapacidade(),
-                    caminhao.getResiduo()
-            );
-        }
         RotaResponseDTO rotaDTO = null;
-        if(itinerario.getRota() != null){
-            Rota rota = itinerario.getRota();
-            rotaDTO = new RotaResponseDTO(
-                    rota.getId(),
-                    null,
-                    rota.getNome(),
-                    rota.getBairros(),
-                    rota.getArestas(),
-                    rota.getDistancia_total(),
-                    rota.getResiduos_atendidos(),
-                    rota.getDataCriacao()
+        MotoristaResponseDTO motoristaDTO = null;
+        if (it.getRota() != null) {
+            Rota r = it.getRota();
+            Caminhao c = r.getCaminhaoDesignado();
+            Motorista m = c.getMotorista();
+
+            motoristaDTO = new MotoristaResponseDTO(
+                    m.getId(),
+                    m.getNome(),
+                    m.getCPF(),
+                    m.isAtivo()
             );
 
+            caminhaoDTO = new CaminhaoResponseDTO(
+                    c.getId(),
+                    c.getPlaca(),
+                    motoristaDTO,
+                    c.getCapacidade(),
+                    c.getTiposResiduos().stream().toList(),
+                    c.isAtivo()
+            );
+
+
+            rotaDTO = new RotaResponseDTO(
+                    r.getId(),
+                    caminhaoDTO,
+                    r.getNome(),
+                    stringToListLong(r.getBairros()),
+                    stringToListLong(r.getArestas()),
+                    r.getDistancia_total(),
+                    r.getTiposResiduos(),
+                    r.getDataCriacao(),
+                    r.isAtivo()
+            );
         }
 
         return new ItinerarioResponseDTO(
-                itinerario.getId(),
-                caminhaoDTO,
+                it.getId(),
                 rotaDTO,
-                itinerario.getDia()
+                it.getDia(),
+                it.isAtivo()
         );
     }
 
-    // Atualiza a entidade a partir do DTO
+    // UPDATE DE ENTITY         //
+
     public static void updateEntity(Itinerario entity, ItinerarioRequestDTO dto) {
         if (entity == null || dto == null) return;
 
-        entity.setDia(dto.getDia());
-        // Caminhão e Rota serão atualizados no service
+        if(dto.getDia() != null) {entity.setDia(dto.getDia());}
+        if(dto.getRotaId() != null){entity.setRota(entity.getRota());}
     }
 
-    // LISTA DE ENTIDADES → LISTA DE DTO
+    // LISTA → DTO LIST         //
+
     public static List<ItinerarioResponseDTO> toDTOList(List<Itinerario> lista) {
         if (lista == null) return null;
 

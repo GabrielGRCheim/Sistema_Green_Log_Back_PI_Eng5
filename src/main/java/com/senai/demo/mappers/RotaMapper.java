@@ -5,42 +5,73 @@ import com.senai.demo.dtos.RotaRequestDTO;
 import com.senai.demo.dtos.RotaResponseDTO;
 import com.senai.demo.models.entities.Caminhao;
 import com.senai.demo.models.entities.Rota;
+import com.senai.demo.models.enums.TipoResiduo;
+import com.senai.demo.models.padraoprojeto.factory.ResiduoFactory;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class RotaMapper {
 
-    // RequestDTO → Entity (sem buscar caminhão!)
+    // CONVERSORES MANUAIS     //
+
+    private static String listLongToString(List<Long> list) {
+        if (list == null || list.isEmpty()) return "";
+        return list.stream()
+                .map(String::valueOf)
+                .collect(Collectors.joining(";"));
+    }
+
+    private static List<Long> stringToListLong(String str) {
+        if (str == null || str.isBlank()) return new ArrayList<>();
+
+        return Arrays.stream(str.split(";"))
+                .filter(s -> !s.isBlank())
+                .map(Long::valueOf)
+                .collect(Collectors.toList());
+    }
+
+
+    private static List<TipoResiduo> stringToListEnum(String str) {
+        if (str == null || str.isBlank()) return new ArrayList<>();
+
+        return Arrays.stream(str.replace(" ", "").toUpperCase().trim().split(","))
+                .filter(s -> !s.isBlank())
+                .map(TipoResiduo::valueOf)
+                .collect(Collectors.toList());
+    }
+
+    // MAPEAMENTO DTO → ENTITY //
+
     public static Rota toEntity(RotaRequestDTO dto) {
         if (dto == null) return null;
 
         Rota rota = new Rota();
-        rota.setNome(dto.getNome());
-        rota.setBairros(dto.getBairros());
-        rota.setArestas(dto.getArestas());
-        rota.setDistancia_total(dto.getDistancia_total());
-        rota.setResiduos_atendidos(dto.getResiduos_atendidos());
 
-        // Aqui NÃO seta caminhaoDesignado, isso é feito no service após buscar pelo ID
+        rota.setBairros(listLongToString(dto.getBairros()));
+        rota.setArestas(listLongToString(dto.getArestas()));
 
         return rota;
     }
 
-    // Entity → ResponseDTO
+    // MAPEAMENTO ENTITY → DTO //
+
     public static RotaResponseDTO toDTO(Rota rota) {
         if (rota == null) return null;
 
-        Long caminhaoId = null;
         CaminhaoResponseDTO caminhaoDTO = null;
+
         if (rota.getCaminhaoDesignado() != null) {
-            Caminhao caminhao = rota.getCaminhaoDesignado();
+            Caminhao c = rota.getCaminhaoDesignado();
             caminhaoDTO = new CaminhaoResponseDTO(
-                    caminhao.getId(),
-                    caminhao.getNomeResponsavel(),
-                    caminhao.getPlaca(),
-                    caminhao.getCapacidade(),
-                    caminhao.getResiduo()
+                    c.getId(),
+                    c.getPlaca(),
+                    MotoristaMapper.toDTO(c.getMotorista()),
+                    c.getCapacidade(),
+                    c.getTiposResiduos().stream().toList(),
+                    c.isAtivo()
             );
         }
 
@@ -48,35 +79,28 @@ public class RotaMapper {
                 rota.getId(),
                 caminhaoDTO,
                 rota.getNome(),
-                rota.getBairros(),
-                rota.getArestas(),
+                stringToListLong(rota.getBairros()),
+                stringToListLong(rota.getArestas()),
                 rota.getDistancia_total(),
-                rota.getResiduos_atendidos(),
-                rota.getDataCriacao()
+                rota.getTiposResiduos(),
+                rota.getDataCriacao(),
+                rota.isAtivo()
         );
     }
 
+    // UPDATE DE ENTITY         //
 
-
-    // Atualizar entidade existente a partir do DTO
     public static void updateEntity(Rota rota, RotaRequestDTO dto) {
-        if (rota == null || dto == null) return;
+        if(rota == null || dto == null) return;
 
-        rota.setNome(dto.getNome());
-        rota.setBairros(dto.getBairros());
-        rota.setArestas(dto.getArestas());
-        rota.setDistancia_total(dto.getDistancia_total());
-        rota.setResiduos_atendidos(dto.getResiduos_atendidos());
-
-        // caminhaoDesignado também será setado no service após buscar pelo ID
+        if(dto.getNome() != null) {rota.setNome(dto.getNome());}
+        if(dto.getBairros() != null) {rota.setBairros(listLongToString(dto.getBairros()));}
+        if(dto.getArestas() != null) {rota.setArestas(listLongToString(dto.getArestas()));}
     }
 
-    // Lista de entidades → Lista de DTO
-    public static List<RotaResponseDTO> toDTOList(List<Rota> rotas) {
-        if (rotas == null) return null;
+    // LISTA → DTO LIST         //
 
-        return rotas.stream()
-                .map(RotaMapper::toDTO)
-                .collect(Collectors.toList());
+    public static List<RotaResponseDTO> toDTOList(List<Rota> rotas) {
+        return rotas.stream().map(RotaMapper::toDTO).collect(Collectors.toList());
     }
 }

@@ -2,6 +2,10 @@ package com.senai.demo.dtos;
 
 import com.senai.demo.models.entities.Bairro;
 import com.senai.demo.models.entities.PontoColeta;
+import com.senai.demo.models.enums.TipoResiduo;
+
+import java.util.List;
+import java.util.Set;
 
 public class PontoColetaResponseDTO {
 
@@ -12,11 +16,12 @@ public class PontoColetaResponseDTO {
     private String telefoneResponsavel;
     private String emailResponsavel;
     private String endereco;
-    private String tiposResiduoAceitos;
+    private Set<TipoResiduo> tiposResiduos;
+    private boolean ativo;
 
     public PontoColetaResponseDTO(Long id, BairroResponseDTO bairro, String nome, String responsavel,
                                   String telefoneResponsavel, String emailResponsavel,
-                                  String endereco, String tiposResiduoAceitos) {
+                                  String endereco, Set<TipoResiduo> tiposResiduos, boolean ativo) {
         this.id = id;
         this.bairro = bairro;
         this.nome = nome;
@@ -24,7 +29,8 @@ public class PontoColetaResponseDTO {
         this.telefoneResponsavel = telefoneResponsavel;
         this.emailResponsavel = emailResponsavel;
         this.endereco = endereco;
-        this.tiposResiduoAceitos = tiposResiduoAceitos;
+        this.tiposResiduos = tiposResiduos;
+        this.ativo = ativo;
     }
 
     public PontoColetaResponseDTO() {}
@@ -85,11 +91,19 @@ public class PontoColetaResponseDTO {
         this.endereco = endereco;
     }
 
-    public String getTiposResiduoAceitos() {
-        return tiposResiduoAceitos;
+    public Set<TipoResiduo> getTiposResiduos() {
+        return tiposResiduos;
     }
 
-    public void setTiposResiduoAceitos(String tiposResiduoAceitos) {
-        this.tiposResiduoAceitos = tiposResiduoAceitos;
+    public void setTiposResiduos(Set<TipoResiduo> tiposResiduos) {
+        this.tiposResiduos = tiposResiduos;
+    }
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
     }
 }

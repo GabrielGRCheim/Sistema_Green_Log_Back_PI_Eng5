@@ -30,6 +30,10 @@ public class AuthService {
             return new LoginResponseDTO("Erro ao realizar login", false);
         }
 
+        if(!usuario.isAtivo()){
+            return new LoginResponseDTO("Erro ao realizar login", false);
+        }
+
         return new LoginResponseDTO("Autenticado com sucesso", true);
     }
 }

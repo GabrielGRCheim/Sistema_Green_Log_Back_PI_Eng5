@@ -1,24 +1,25 @@
 package com.senai.demo.dtos;
 
-import jakarta.validation.constraints.NotBlank;
+import com.senai.demo.models.enums.TipoResiduo;
 import jakarta.validation.constraints.NotNull;
+import java.util.List;
 
 public class RotaRequestDTO {
 
     @NotNull(message = "O ID do caminhão é obrigatório")
     private Long caminhaoId;
 
-    @NotBlank(message = "Nome é obrigatório")
+    @NotNull(message = "O ID do caminhão é obrigatório")
     private String nome;
 
-    private String bairros;
+    @NotNull(message = "A lista de bairros é obrigatória")
+    private List<Long> bairros;
 
-    private String arestas;
+    @NotNull(message = "A lista de arestas é obrigatória")
+    private List<Long> arestas;
 
-    private Float distancia_total;
-
-    @NotBlank(message = "Resíduos atendidos é obrigatório")
-    private String residuos_atendidos;
+    @NotNull(message = "O Tipo de Residuo e obrigatório")
+    private TipoResiduo tipoResiduo;
 
     public RotaRequestDTO() {
     }
@@ -39,35 +40,27 @@ public class RotaRequestDTO {
         this.nome = nome;
     }
 
-    public String getBairros() {
+    public List<Long> getBairros() {
         return bairros;
     }
 
-    public void setBairros(String bairros) {
+    public void setBairros(List<Long> bairros) {
         this.bairros = bairros;
     }
 
-    public String getArestas() {
+    public List<Long> getArestas() {
         return arestas;
     }
 
-    public void setArestas(String arestas) {
+    public void setArestas(List<Long> arestas) {
         this.arestas = arestas;
     }
 
-    public Float getDistancia_total() {
-        return distancia_total;
+    public TipoResiduo getTipoResiduo() {
+        return tipoResiduo;
     }
 
-    public void setDistancia_total(Float distancia_total) {
-        this.distancia_total = distancia_total;
-    }
-
-    public String getResiduos_atendidos() {
-        return residuos_atendidos;
-    }
-
-    public void setResiduos_atendidos(String residuos_atendidos) {
-        this.residuos_atendidos = residuos_atendidos;
+    public void setTipoResiduo(TipoResiduo tipoResiduo) {
+        this.tipoResiduo = tipoResiduo;
     }
 }

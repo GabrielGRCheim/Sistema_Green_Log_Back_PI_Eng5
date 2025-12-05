@@ -2,7 +2,10 @@ package com.senai.demo.controllers;
 
 import com.senai.demo.dtos.CaminhaoRequestDTO;
 import com.senai.demo.dtos.CaminhaoResponseDTO;
+import com.senai.demo.dtos.ItinerarioResponseDTO;
+import com.senai.demo.models.enums.TipoResiduo;
 import com.senai.demo.services.CaminhaoService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +24,7 @@ public class CaminhaoController {
 
     // Criar
     @PostMapping
-    public ResponseEntity<CaminhaoResponseDTO> criar(@RequestBody CaminhaoRequestDTO dto) {
+    public ResponseEntity<CaminhaoResponseDTO> criar(@Valid @RequestBody CaminhaoRequestDTO dto) {
         CaminhaoResponseDTO criado = caminhaoService.criar(dto);
         return ResponseEntity.ok(criado);
     }
@@ -32,17 +35,34 @@ public class CaminhaoController {
         return ResponseEntity.ok(caminhaoService.listarTodos());
     }
 
+    // Listar todos Ativos
+    @GetMapping("/ativos")
+    public ResponseEntity<List<CaminhaoResponseDTO>> listarAtivos() {
+        return ResponseEntity.ok(caminhaoService.listarAtivos());
+    }
+
+    //Listar todos os Residuos Disponiveis no Enum
+    @GetMapping("/tipos_residuo")
+    public ResponseEntity<List<TipoResiduo>> listarTiposResiduo() {
+        return ResponseEntity.ok(caminhaoService.listarTiposResiduo());
+    }
+
     // Buscar por ID
     @GetMapping("/{id}")
     public ResponseEntity<CaminhaoResponseDTO> buscarPorId(@PathVariable Long id) {
         return ResponseEntity.ok(caminhaoService.buscarPorId(id));
     }
 
+    @GetMapping("/filtra_residuo/{residuo}")
+    public ResponseEntity<List<CaminhaoResponseDTO>> buscarPorResiduo(@RequestParam TipoResiduo tipoResiduo) {
+        return ResponseEntity.ok(caminhaoService.listarCaminhoesResiduo(tipoResiduo));
+    }
+
     // Atualizar
     @PutMapping("/{id}")
     public ResponseEntity<CaminhaoResponseDTO> atualizar(
             @PathVariable Long id,
-            @RequestBody CaminhaoRequestDTO dto
+            @Valid @RequestBody CaminhaoRequestDTO dto
     ) {
         return ResponseEntity.ok(caminhaoService.atualizar(id, dto));
     }

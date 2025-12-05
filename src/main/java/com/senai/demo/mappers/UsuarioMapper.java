@@ -16,7 +16,7 @@ public class UsuarioMapper {
         Usuario usuario = new Usuario();
         usuario.setNome(dto.getNome());
         usuario.setEmail(dto.getEmail());
-        usuario.setSenha(dto.getSenha()); // senha vem no request
+        usuario.setSenha(dto.getSenha());
 
         return usuario;
     }
@@ -29,7 +29,7 @@ public class UsuarioMapper {
         dto.setId(usuario.getId());
         dto.setNome(usuario.getNome());
         dto.setEmail(usuario.getEmail());
-        // senha nunca vai na resposta
+        dto.setAtivo(usuario.isAtivo());
 
         return dto;
     }

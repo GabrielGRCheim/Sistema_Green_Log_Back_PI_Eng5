@@ -7,6 +7,8 @@ public class RuaConexaoRequestDTO {
     @NotBlank(message = "Origem é obrigatorio")
     private Long origemId;
 
+    private String nome;
+
     @NotBlank(message = "Destino é obrigatorio")
     private Long destinoId;
 
@@ -38,5 +40,13 @@ public class RuaConexaoRequestDTO {
 
     public void setDistancia(Float distancia) {
         this.distancia = distancia;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 }

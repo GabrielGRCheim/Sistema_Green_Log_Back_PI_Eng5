@@ -12,19 +12,19 @@ public class Itinerario {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "Caminhao_id")
-    private Caminhao caminhao;
-
-    @ManyToOne
     @JoinColumn(name = "Rota_id")
     private Rota rota;
 
+    @Column(name = "Data")
     private LocalDate dia;
 
-    public Itinerario(Caminhao caminhao, Rota rota, LocalDate dia) {
-        this.caminhao = caminhao;
+    @Column(name = "Ativo")
+    private boolean ativo = true;
+
+    public Itinerario(Rota rota, LocalDate dia, boolean ativo) {
         this.rota = rota;
         this.dia = dia;
+        this.ativo = ativo;
     }
 
     public Itinerario() {
@@ -32,14 +32,6 @@ public class Itinerario {
 
     public Long getId() {
         return id;
-    }
-
-    public Caminhao getCaminhao() {
-        return caminhao;
-    }
-
-    public void setCaminhao(Caminhao caminhao) {
-        this.caminhao = caminhao;
     }
 
     public Rota getRota() {
@@ -56,5 +48,13 @@ public class Itinerario {
 
     public void setDia(LocalDate dia) {
         this.dia = dia;
+    }
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
     }
 }

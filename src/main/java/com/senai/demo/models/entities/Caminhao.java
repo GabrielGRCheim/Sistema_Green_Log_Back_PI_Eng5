@@ -1,6 +1,11 @@
 package com.senai.demo.models.entities;
 
+import com.senai.demo.models.enums.TipoResiduo;
+import com.senai.demo.models.padraoprojeto.decorator.Residuos;
+import com.senai.demo.models.padraoprojeto.factory.ResiduoFactory;
 import jakarta.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "Caminhoes")
@@ -12,20 +17,34 @@ public class Caminhao {
     @Column(name = "Placas", nullable = false,unique = true)
     private String placa;
 
-    @Column(name = "Nomes_Motoristas")
-    private String nomeResponsavel;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "Motoristas")
+    private Motorista motorista;
 
     @Column(name = "Capacidades")
     private Double capacidade;
 
-    @Column(name = "Residuos")
-    private String residuo;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Enumerated(EnumType.STRING)
+    private Set<TipoResiduo> tiposResiduos = new HashSet<>();
 
-    public Caminhao(String placa, String nomeResponsavel, Double capacidade, String residuo) {
+    @Column(name = "Ativo")
+    private boolean ativo = true;
+
+    @Transient
+    private Residuos residuosDecorator;
+
+    @PostLoad
+    private void initDecorator() {
+        this.residuosDecorator = ResiduoFactory.criar(tiposResiduos.stream().toList());
+    }
+
+    public Caminhao(String placa, Motorista motorista_id, Double capacidade, Set<TipoResiduo> tiposResiduos, boolean ativo) {
         this.placa = placa;
-        this.nomeResponsavel = nomeResponsavel;
+        this.motorista = motorista_id;
         this.capacidade = capacidade;
-        this.residuo = residuo;
+        this.tiposResiduos = tiposResiduos;
+        this.ativo = ativo;
     }
 
     public Caminhao() {}
@@ -42,12 +61,12 @@ public class Caminhao {
         this.placa = placa;
     }
 
-    public String getNomeResponsavel() {
-        return nomeResponsavel;
+    public Motorista getMotorista() {
+        return motorista;
     }
 
-    public void setNomeResponsavel(String nomeResponsavel) {
-        this.nomeResponsavel = nomeResponsavel;
+    public void setMotorista(Motorista motorista) {
+        this.motorista = motorista;
     }
 
     public Double getCapacidade() {
@@ -58,11 +77,24 @@ public class Caminhao {
         this.capacidade = capacidade;
     }
 
-    public String getResiduo() {
-        return residuo;
+    public Set<TipoResiduo> getTiposResiduos() {
+        return tiposResiduos;
     }
 
-    public void setResiduo(String residuo) {
-        this.residuo = residuo;
+    public Residuos getResiduosDecorator() {
+        return residuosDecorator;
+    }
+
+    public void setTiposResiduos(Set<TipoResiduo> tipos) {
+        this.tiposResiduos = tipos;
+        this.residuosDecorator = ResiduoFactory.criar(tipos.stream().toList());
+    }
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
     }
 }

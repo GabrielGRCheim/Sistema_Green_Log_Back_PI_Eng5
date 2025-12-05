@@ -1,24 +1,34 @@
 package com.senai.demo.dtos;
 
+import com.senai.demo.models.entities.Motorista;
+import com.senai.demo.models.enums.TipoResiduo;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+
+import java.util.List;
 
 public class CaminhaoRequestDTO {
 
     @NotBlank(message = "Placa é obrigatoria")
+    @Pattern(
+            regexp = "^[A-Z]{3}\\d[A-Z]\\d{2}$",
+            message = "Placa inválida. Use o formato Mercosul: AAA1A11"
+    )
     private String placa;
 
-    private String nomeResponsavel;
+    private Long motorista_id;
 
     private Double capacidade;
 
-    @NotBlank(message = "Residuo é obrigatorio")
-    private String residuo;
+    @NotNull(message = "Residuo é obrigatorio")
+    private List<TipoResiduo> tiposResiduos;
 
-    public CaminhaoRequestDTO(String placa, String nomeResponsavel, Double capacidade, String residuo) {
+    public CaminhaoRequestDTO(String placa, Long motorista_id, Double capacidade, List<TipoResiduo> tiposResiduos) {
         this.placa = placa;
-        this.nomeResponsavel = nomeResponsavel;
+        this.motorista_id = motorista_id;
         this.capacidade = capacidade;
-        this.residuo = residuo;
+        this.tiposResiduos = tiposResiduos;
     }
 
     public CaminhaoRequestDTO() {
@@ -32,12 +42,12 @@ public class CaminhaoRequestDTO {
         this.placa = placa;
     }
 
-    public String getNomeResponsavel() {
-        return nomeResponsavel;
+    public Long getMotorista_id() {
+        return motorista_id;
     }
 
-    public void setNomeResponsavel(String nomeResponsavel) {
-        this.nomeResponsavel = nomeResponsavel;
+    public void setMotorista_id(Long motorista_id) {
+        this.motorista_id = motorista_id;
     }
 
     public Double getCapacidade() {
@@ -48,11 +58,11 @@ public class CaminhaoRequestDTO {
         this.capacidade = capacidade;
     }
 
-    public String getResiduo() {
-        return residuo;
+    public List<TipoResiduo> getTiposResiduos() {
+        return tiposResiduos;
     }
 
-    public void setResiduo(String residuo) {
-        this.residuo = residuo;
+    public void setTiposResiduos(List<TipoResiduo> tiposResiduos) {
+        this.tiposResiduos = tiposResiduos;
     }
 }

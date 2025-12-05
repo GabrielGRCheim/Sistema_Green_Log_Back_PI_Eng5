@@ -6,10 +6,12 @@ import com.senai.demo.mappers.ItinerarioMapper;
 import com.senai.demo.models.entities.Caminhao;
 import com.senai.demo.models.entities.Itinerario;
 import com.senai.demo.models.entities.Rota;
+import com.senai.demo.models.exceptions.BadRequestException;
+import com.senai.demo.models.exceptions.NotFoundException;
+import com.senai.demo.models.padraoprojeto.singleton.LogEventoSingleton;
 import com.senai.demo.models.repositorys.CaminhaoRepository;
 import com.senai.demo.models.repositorys.ItinerarioRepository;
 import com.senai.demo.models.repositorys.RotaRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,15 +33,18 @@ public class ItinerarioService {
 
     public ItinerarioResponseDTO criarItinerario(ItinerarioRequestDTO dto) {
 
-        Caminhao caminhao = caminhaoRepository.findById(dto.getCaminhaoId())
-                .orElseThrow(() -> new EntityNotFoundException("Caminhão não encontrado"));
-
         Rota rota = rotaRepository.findById(dto.getRotaId())
-                .orElseThrow(() -> new EntityNotFoundException("Rota não encontrada"));
+                .orElseThrow(() -> new NotFoundException("Rota não encontrada"));
+
+        Caminhao caminhao = caminhaoRepository.findById(rota.getCaminhaoDesignado().getId())
+                .orElseThrow(() -> new NotFoundException("Caminhão não encontrado"));
+
+        if (itinerarioRepository.existsByRota_CaminhaoDesignado_IdAndDia(caminhao.getId(), dto.getDia())) {
+            throw new BadRequestException("Este caminhão já possui itinerário registrado para este dia.");
+        }
 
         Itinerario entity = ItinerarioMapper.toEntity(dto);
 
-        entity.setCaminhao(caminhao);
         entity.setRota(rota);
 
         Itinerario saved = itinerarioRepository.save(entity);
@@ -53,34 +58,50 @@ public class ItinerarioService {
 
     public ItinerarioResponseDTO encontrarPorId(Long id) {
         Itinerario entity = itinerarioRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Itinerário não encontrado com ID: " + id));
+                .orElseThrow(() -> new NotFoundException("Itinerário não encontrado com ID: " + id));
 
         return ItinerarioMapper.toDTO(entity);
     }
 
     public ItinerarioResponseDTO atualizar(Long id, ItinerarioRequestDTO dto) {
         Itinerario entity = itinerarioRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Itinerário não encontrado com ID: " + id));
-
-        Caminhao caminhao = caminhaoRepository.findById(dto.getCaminhaoId())
-                .orElseThrow(() -> new EntityNotFoundException("Caminhão não encontrado"));
+                .orElseThrow(() -> new NotFoundException("Itinerário não encontrado com ID: " + id));
 
         Rota rota = rotaRepository.findById(dto.getRotaId())
-                .orElseThrow(() -> new EntityNotFoundException("Rota não encontrada"));
+                .orElseThrow(() -> new NotFoundException("Rota não encontrada"));
+
+        Caminhao caminhao = caminhaoRepository.findById(rota.getCaminhaoDesignado().getId())
+                .orElseThrow(() -> new NotFoundException("Caminhão não encontrado"));
+
+        if (itinerarioRepository.existsByRota_CaminhaoDesignado_IdAndDia(caminhao.getId(), dto.getDia())) {
+            throw new BadRequestException("Este caminhão já possui itinerário registrado para este dia.");
+        }
 
         ItinerarioMapper.updateEntity(entity, dto);
-
-        entity.setCaminhao(caminhao);
-        entity.setRota(rota);
 
         Itinerario updated = itinerarioRepository.save(entity);
 
         return ItinerarioMapper.toDTO(updated);
     }
 
+    public List<ItinerarioResponseDTO> listarAtivos() {
+        return ItinerarioMapper.toDTOList(itinerarioRepository.findByAtivo(true));
+    }
+
+    // Ativar/Inativar
+    public ItinerarioResponseDTO alterarStatus(Long id, boolean ativo) {
+        Itinerario itinerario = itinerarioRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Itinerario não encontrado com ID: " + id));
+        itinerario.setAtivo(ativo);
+        LogEventoSingleton log = LogEventoSingleton.getInstance();
+        log.registrar("Status do Itinerario " + id + " alterado para " + ativo);
+        itinerarioRepository.save(itinerario);
+        return ItinerarioMapper.toDTO(itinerario);
+    }
+
     public void deletar(Long id) {
         if (!itinerarioRepository.existsById(id)) {
-            throw new EntityNotFoundException("Itinerário não encontrado com ID: " + id);
+            throw new NotFoundException("Itinerário não encontrado com ID: " + id);
         }
 
         itinerarioRepository.deleteById(id);

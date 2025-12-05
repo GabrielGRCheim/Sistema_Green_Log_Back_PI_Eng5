@@ -33,6 +33,12 @@ public class UsuarioController {
         return ResponseEntity.ok(service.listarTodos());
     }
 
+    // Listar todos Ativos
+    @GetMapping("/ativos")
+    public ResponseEntity<List<UsuarioResponseDTO>> listarAtivos() {
+        return ResponseEntity.ok(service.listarAtivos());
+    }
+
     // Buscar por ID
     @GetMapping("/{id}")
     public ResponseEntity<UsuarioResponseDTO> buscarPorId(@PathVariable Long id) {
@@ -44,6 +50,13 @@ public class UsuarioController {
     public ResponseEntity<UsuarioResponseDTO> atualizar(@PathVariable Long id,
                                                         @RequestBody UsuarioRequestDTO dto) {
         return ResponseEntity.ok(service.atualizar(id, dto));
+    }
+
+    // Atualizar Status
+    @PutMapping("/status/{id}")
+    public ResponseEntity<UsuarioResponseDTO> alterarStatus(@PathVariable Long id,
+                                                        @RequestBody boolean status) {
+        return ResponseEntity.ok(service.alterarStatus(id, status));
     }
 
     // Deletar

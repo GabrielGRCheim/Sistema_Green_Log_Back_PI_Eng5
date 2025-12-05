@@ -9,7 +9,8 @@ import java.util.stream.Collectors;
 
 public class BairroMapper {
 
-    // ENTIDADE -> RESPONSE DTO
+    // MAPEAMENTO ENTITY → DTO //
+
     public static BairroResponseDTO toDTO(Bairro bairro) {
         if (bairro == null) return null;
 
@@ -19,7 +20,8 @@ public class BairroMapper {
         );
     }
 
-    // REQUEST DTO -> ENTIDADE
+    // MAPEAMENTO DTO → ENTITY //
+
     public static Bairro toEntity(BairroRequestDTO dto) {
         if (dto == null) return null;
         Bairro bairro = new Bairro();
@@ -27,13 +29,15 @@ public class BairroMapper {
         return bairro;
     }
 
-    // ATUALIZAR ENTIDADE EXISTENTE A PARTIR DO DTO
+    // UPDATE DE ENTITY         //
+
     public static void updateEntity(Bairro bairro, BairroRequestDTO dto) {
         if (dto == null || bairro == null) return;
         bairro.setNome(dto.getNome());
     }
 
-    // LISTA DE ENTIDADES -> LISTA DE DTO
+    // LISTA → DTO LIST         //
+
     public static List<BairroResponseDTO> toDTOList(List<Bairro> bairros) {
         if (bairros == null) return null;
 

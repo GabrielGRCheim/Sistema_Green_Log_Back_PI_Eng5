@@ -1,17 +1,17 @@
 package com.senai.demo.dtos;
 
-import com.senai.demo.models.entities.Usuario;
-
 public class UsuarioResponseDTO {
 
     private Long id;
     private String nome;
     private String email;
+    private boolean ativo;
 
-    public UsuarioResponseDTO(Long id, String nome, String email) {
+    public UsuarioResponseDTO(Long id, String nome, String email, boolean ativo) {
         this.id = id;
         this.nome = nome;
         this.email = email;
+        this.ativo = ativo;
     }
 
     public UsuarioResponseDTO() {
@@ -39,5 +39,13 @@ public class UsuarioResponseDTO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
     }
 }
