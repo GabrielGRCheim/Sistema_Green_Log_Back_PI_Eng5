@@ -36,7 +36,7 @@ public class Rota {
     private boolean ativo = true;
 
     @Column(name = "Data_Criacao", updatable = false)
-    private LocalDateTime dataCriacao =  LocalDateTime.now().minusNanos(0);
+    private LocalDateTime dataCriacao =  LocalDateTime.now().withNano(0);
 
     public Rota(Float distancia_total, TipoResiduo tiposResiduos, String bairros, String arestas, String nome, Caminhao caminhaoDesignado, boolean ativo) {
         this.distancia_total = distancia_total;
