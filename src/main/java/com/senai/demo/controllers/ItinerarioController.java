@@ -42,7 +42,7 @@ public class ItinerarioController {
     }
 
     // Atualizar Status
-    @PutMapping("/status/{id}")
+    @PatchMapping("/status/{id}")
     public ResponseEntity<ItinerarioResponseDTO> alterarStatus(@PathVariable Long id) {
         return ResponseEntity.ok(itinerarioService.alterarStatus(id));
     }
