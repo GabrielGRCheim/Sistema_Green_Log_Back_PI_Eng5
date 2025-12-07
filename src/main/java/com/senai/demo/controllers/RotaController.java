@@ -1,5 +1,6 @@
 package com.senai.demo.controllers;
 
+import com.senai.demo.dtos.MotoristaResponseDTO;
 import com.senai.demo.dtos.RotaRequestDTO;
 import com.senai.demo.dtos.RotaResponseDTO;
 import com.senai.demo.dtos.UsuarioResponseDTO;
@@ -39,10 +40,11 @@ public class RotaController {
         return ResponseEntity.ok(rotaService.listarTiposResiduo());
     }
 
-    // Listar todos Ativos
-    @GetMapping("/ativos")
-    public ResponseEntity<List<RotaResponseDTO>> listarAtivos() {
-        return ResponseEntity.ok(rotaService.listarAtivos());
+    @GetMapping("/Status")
+    public ResponseEntity<List<RotaResponseDTO>> listarPorStatus(
+            @RequestParam Boolean status
+    ) {
+        return ResponseEntity.ok(rotaService.listarPorStatus(status));
     }
 
     // Buscar por ID

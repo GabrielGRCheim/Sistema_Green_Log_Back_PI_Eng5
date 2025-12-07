@@ -1,5 +1,6 @@
 package com.senai.demo.controllers;
 
+import com.senai.demo.dtos.MotoristaResponseDTO;
 import com.senai.demo.dtos.PontoColetaRequestDTO;
 import com.senai.demo.dtos.PontoColetaResponseDTO;
 import com.senai.demo.dtos.RotaResponseDTO;
@@ -41,10 +42,11 @@ public class PontoColetaController {
         return ResponseEntity.ok(pontoColetaService.listarTiposResiduo());
     }
 
-    // Listar todos Ativos
-    @GetMapping("/ativos")
-    public ResponseEntity<List<PontoColetaResponseDTO>> listarAtivos() {
-        return ResponseEntity.ok(pontoColetaService.listarAtivos());
+    @GetMapping("/Status")
+    public ResponseEntity<List<PontoColetaResponseDTO>> listarPorStatus(
+            @RequestParam Boolean status
+    ) {
+        return ResponseEntity.ok(pontoColetaService.listarPorStatus(status));
     }
 
     // Buscar por ID

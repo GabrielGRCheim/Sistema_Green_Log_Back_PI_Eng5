@@ -84,8 +84,8 @@ public class CaminhaoService {
         return CaminhaoMapper.toDTO(atualizado);
     }
 
-    public List<CaminhaoResponseDTO> listarAtivos() {
-        return CaminhaoMapper.toDTOList(caminhaoRepository.findByAtivo(true));
+    public List<CaminhaoResponseDTO> listarPorStatus(Boolean status) {
+        return CaminhaoMapper.toDTOList(caminhaoRepository.findByAtivo(status));
     }
 
     public List<CaminhaoResponseDTO> listarCaminhoesResiduo(TipoResiduo tipoResiduo) {
