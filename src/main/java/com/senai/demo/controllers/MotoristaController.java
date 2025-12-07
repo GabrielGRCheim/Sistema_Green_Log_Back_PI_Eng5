@@ -49,11 +49,8 @@ public class MotoristaController {
 
     // Alterar status (ativar/inativar)
     @PatchMapping("/{id}/status")
-    public ResponseEntity<MotoristaResponseDTO> alterarStatus(
-            @PathVariable Long id,
-            @RequestParam boolean ativo) {
-
-        return ResponseEntity.ok(motoristaService.alterarStatus(id, ativo));
+    public ResponseEntity<MotoristaResponseDTO> alterarStatus(@PathVariable Long id) {
+        return ResponseEntity.ok(motoristaService.alterarStatus(id));
     }
 
     // Deletar motorista

@@ -93,12 +93,12 @@ public class CaminhaoService {
     }
 
     // Ativar/Inativar
-    public CaminhaoResponseDTO alterarStatus(Long id, boolean ativo) {
+    public CaminhaoResponseDTO alterarStatus(Long id) {
         Caminhao caminhao = caminhaoRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Caminhão não encontrado com ID: " + id));
-        caminhao.setAtivo(ativo);
+        caminhao.setAtivo(!caminhao.isAtivo());
         LogEventoSingleton log = LogEventoSingleton.getInstance();
-        log.registrar("Status do Caminhão " + id + " alterado para " + ativo);
+        log.registrar("Status do Caminhão " + id + " alterado para " + caminhao.isAtivo());
         caminhaoRepository.save(caminhao);
         return CaminhaoMapper.toDTO(caminhao);
     }

@@ -43,7 +43,7 @@ public class DijkstraController {
 
         Map<String, Object> response = new HashMap<>();
         response.put("distanciaTotal", resultado.getDistanciaTotal());
-        response.put("caminho", resultado.getBairros());
+        response.put("bairros", resultado.getBairros());
         response.put("arestas", resultado.getArestas());
 
         return ResponseEntity.ok(response);

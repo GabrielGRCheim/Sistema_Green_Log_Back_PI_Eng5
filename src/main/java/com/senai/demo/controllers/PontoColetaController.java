@@ -64,9 +64,8 @@ public class PontoColetaController {
 
     // Atualizar Status
     @PutMapping("/status/{id}")
-    public ResponseEntity<PontoColetaResponseDTO> alterarStatus(@PathVariable Long id,
-                                                         @RequestBody boolean status) {
-        return ResponseEntity.ok(pontoColetaService.alterarStatus(id, status));
+    public ResponseEntity<PontoColetaResponseDTO> alterarStatus(@PathVariable Long id) {
+        return ResponseEntity.ok(pontoColetaService.alterarStatus(id));
     }
 
     // Deletar

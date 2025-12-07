@@ -113,12 +113,12 @@ public class RotaService {
     }
 
     // Ativar/Inativar
-    public RotaResponseDTO alterarStatus(Long id, boolean ativo) {
+    public RotaResponseDTO alterarStatus(Long id) {
         Rota rota = rotaRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Rota não encontrado com ID: " + id));
-        rota.setAtivo(ativo);
+        rota.setAtivo(!rota.isAtivo());
         LogEventoSingleton log = LogEventoSingleton.getInstance();
-        log.registrar("Status da Rota " + id + " alterado para " + ativo);
+        log.registrar("Status da Rota " + id + " alterado para " + rota.isAtivo());
         rotaRepository.save(rota);
         return RotaMapper.toDTO(rota);
     }
