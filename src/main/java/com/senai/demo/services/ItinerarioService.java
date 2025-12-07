@@ -89,12 +89,12 @@ public class ItinerarioService {
     }
 
     // Ativar/Inativar
-    public ItinerarioResponseDTO alterarStatus(Long id, boolean ativo) {
+    public ItinerarioResponseDTO alterarStatus(Long id) {
         Itinerario itinerario = itinerarioRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Itinerario não encontrado com ID: " + id));
-        itinerario.setAtivo(ativo);
+        itinerario.setAtivo(!itinerario.isAtivo());
         LogEventoSingleton log = LogEventoSingleton.getInstance();
-        log.registrar("Status do Itinerario " + id + " alterado para " + ativo);
+        log.registrar("Status do Itinerario " + id + " alterado para " + itinerario.isAtivo());
         itinerarioRepository.save(itinerario);
         return ItinerarioMapper.toDTO(itinerario);
     }

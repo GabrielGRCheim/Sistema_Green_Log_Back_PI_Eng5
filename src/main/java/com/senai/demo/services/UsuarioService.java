@@ -43,12 +43,12 @@ public class UsuarioService {
     }
 
     // Ativar/Inativar
-    public UsuarioResponseDTO alterarStatus(Long id, boolean ativo) {
+    public UsuarioResponseDTO alterarStatus(Long id) {
         Usuario usuario = repository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Usuario não encontrado com ID: " + id));
-        usuario.setAtivo(ativo);
+        usuario.setAtivo(!usuario.isAtivo());
         LogEventoSingleton log = LogEventoSingleton.getInstance();
-        log.registrar("Status do usuário " + id + " alterado para " + ativo);
+        log.registrar("Status do usuário " + id + " alterado para " + usuario.isAtivo());
         repository.save(usuario);
         return UsuarioMapper.toDTO(usuario);
     }

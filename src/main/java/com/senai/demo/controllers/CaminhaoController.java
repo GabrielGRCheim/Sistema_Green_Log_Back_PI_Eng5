@@ -67,6 +67,12 @@ public class CaminhaoController {
         return ResponseEntity.ok(caminhaoService.atualizar(id, dto));
     }
 
+    // Atualizar Status
+    @PutMapping("/status/{id}")
+    public ResponseEntity<CaminhaoResponseDTO> alterarStatus(@PathVariable Long id) {
+        return ResponseEntity.ok(caminhaoService.alterarStatus(id));
+    }
+
     // Deletar
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Long id) {

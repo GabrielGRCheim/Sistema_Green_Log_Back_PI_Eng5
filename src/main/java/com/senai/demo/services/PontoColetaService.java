@@ -81,12 +81,12 @@ public class PontoColetaService {
     }
 
     // Ativar/Inativar
-    public PontoColetaResponseDTO alterarStatus(Long id, boolean ativo) {
+    public PontoColetaResponseDTO alterarStatus(Long id) {
         PontoColeta pontoColeta = pontoColetaRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Ponto de Coleta não encontrado com ID: " + id));
-        pontoColeta.setAtivo(ativo);
+        pontoColeta.setAtivo(!pontoColeta.isAtivo());
         LogEventoSingleton log = LogEventoSingleton.getInstance();
-        log.registrar("Status do Ponto de Coleta " + id + " alterado para " + ativo);
+        log.registrar("Status do Ponto de Coleta " + id + " alterado para " + pontoColeta.isAtivo());
         pontoColetaRepository.save(pontoColeta);
         return PontoColetaMapper.toDTO(pontoColeta);
     }
