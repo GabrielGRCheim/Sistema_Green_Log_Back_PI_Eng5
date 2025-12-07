@@ -53,7 +53,7 @@ public class UsuarioController {
     }
 
     // Atualizar Status
-    @PutMapping("/status/{id}")
+    @PatchMapping("/status/{id}")
     public ResponseEntity<UsuarioResponseDTO> alterarStatus(@PathVariable Long id) {
         return ResponseEntity.ok(service.alterarStatus(id));
     }

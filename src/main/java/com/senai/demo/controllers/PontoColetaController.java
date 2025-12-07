@@ -63,7 +63,7 @@ public class PontoColetaController {
     }
 
     // Atualizar Status
-    @PutMapping("/status/{id}")
+    @PatchMapping("/status/{id}")
     public ResponseEntity<PontoColetaResponseDTO> alterarStatus(@PathVariable Long id) {
         return ResponseEntity.ok(pontoColetaService.alterarStatus(id));
     }

@@ -68,7 +68,7 @@ public class CaminhaoController {
     }
 
     // Atualizar Status
-    @PutMapping("/status/{id}")
+    @PatchMapping("/status/{id}")
     public ResponseEntity<CaminhaoResponseDTO> alterarStatus(@PathVariable Long id) {
         return ResponseEntity.ok(caminhaoService.alterarStatus(id));
     }

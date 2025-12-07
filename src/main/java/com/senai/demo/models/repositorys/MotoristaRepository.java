@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface MotoristaRepository extends JpaRepository<Motorista, Long> {
     List<Motorista> findByAtivo(boolean b);
+
+    boolean findByCPF(String cpf);
 }
