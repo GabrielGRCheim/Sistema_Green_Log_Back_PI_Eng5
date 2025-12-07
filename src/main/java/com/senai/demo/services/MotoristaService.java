@@ -55,12 +55,12 @@ public class MotoristaService {
     }
 
     // Ativar/Inativar motorista
-    public MotoristaResponseDTO alterarStatus(Long id, boolean ativo) {
+    public MotoristaResponseDTO alterarStatus(Long id) {
         Motorista motorista = motoristaRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Motorista não encontrado com ID: " + id));
-        motorista.setAtivo(ativo);
+        motorista.setAtivo(!motorista.isAtivo());
         LogEventoSingleton log = LogEventoSingleton.getInstance();
-        log.registrar("Status do Motorista " + id + " alterado para " + ativo);
+        log.registrar("Status do Motorista " + id + " alterado para " + motorista.isAtivo());
         motoristaRepository.save(motorista);
         return MotoristaMapper.toDTO(motorista);
     }

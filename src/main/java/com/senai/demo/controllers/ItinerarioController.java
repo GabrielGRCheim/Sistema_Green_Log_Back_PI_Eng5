@@ -43,9 +43,8 @@ public class ItinerarioController {
 
     // Atualizar Status
     @PutMapping("/status/{id}")
-    public ResponseEntity<ItinerarioResponseDTO> alterarStatus(@PathVariable Long id,
-                                                                @RequestBody boolean status) {
-        return ResponseEntity.ok(itinerarioService.alterarStatus(id, status));
+    public ResponseEntity<ItinerarioResponseDTO> alterarStatus(@PathVariable Long id) {
+        return ResponseEntity.ok(itinerarioService.alterarStatus(id));
     }
 
     @PutMapping("/{id}")

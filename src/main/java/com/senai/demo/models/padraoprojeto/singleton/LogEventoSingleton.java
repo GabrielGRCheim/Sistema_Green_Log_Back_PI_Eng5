@@ -9,12 +9,11 @@ public class LogEventoSingleton {
 
     private static LogEventoSingleton instance;
 
-    private static final String FILE_PATH = "logs-eventos.txt"; // arquivo na raiz do projeto
+    private static final String FILE_PATH = "src//main//java//com//senai//demo//models//padraoprojeto//singleton//logs-eventos.txt"; // arquivo na raiz do projeto
     private static final DateTimeFormatter FORMATTER =
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     private LogEventoSingleton() {
-        // construtor privado (garante Singleton)
     }
 
     public static synchronized LogEventoSingleton getInstance() {

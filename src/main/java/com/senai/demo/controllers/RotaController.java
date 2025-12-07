@@ -62,9 +62,8 @@ public class RotaController {
 
     // Atualizar Status
     @PutMapping("/status/{id}")
-    public ResponseEntity<RotaResponseDTO> alterarStatus(@PathVariable Long id,
-                                                            @RequestBody boolean status) {
-        return ResponseEntity.ok(rotaService.alterarStatus(id, status));
+    public ResponseEntity<RotaResponseDTO> alterarStatus(@PathVariable Long id) {
+        return ResponseEntity.ok(rotaService.alterarStatus(id));
     }
 
     // Deletar
