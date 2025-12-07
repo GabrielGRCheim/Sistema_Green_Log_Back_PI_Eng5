@@ -1,5 +1,6 @@
 package com.senai.demo.controllers;
 
+import com.senai.demo.dtos.MotoristaResponseDTO;
 import com.senai.demo.dtos.UsuarioRequestDTO;
 import com.senai.demo.dtos.UsuarioResponseDTO;
 import com.senai.demo.services.UsuarioService;
@@ -33,12 +34,12 @@ public class UsuarioController {
         return ResponseEntity.ok(service.listarTodos());
     }
 
-    // Listar todos Ativos
-    @GetMapping("/ativos")
-    public ResponseEntity<List<UsuarioResponseDTO>> listarAtivos() {
-        return ResponseEntity.ok(service.listarAtivos());
+    @GetMapping("/Status")
+    public ResponseEntity<List<UsuarioResponseDTO>> listarPorStatus(
+            @RequestParam Boolean status
+    ) {
+        return ResponseEntity.ok(service.listarPorStatus(status));
     }
-
     // Buscar por ID
     @GetMapping("/{id}")
     public ResponseEntity<UsuarioResponseDTO> buscarPorId(@PathVariable Long id) {

@@ -2,7 +2,9 @@ package com.senai.demo.services;
 
 import com.senai.demo.dtos.ItinerarioRequestDTO;
 import com.senai.demo.dtos.ItinerarioResponseDTO;
+import com.senai.demo.dtos.MotoristaResponseDTO;
 import com.senai.demo.mappers.ItinerarioMapper;
+import com.senai.demo.mappers.MotoristaMapper;
 import com.senai.demo.models.entities.Caminhao;
 import com.senai.demo.models.entities.Itinerario;
 import com.senai.demo.models.entities.Rota;
@@ -84,8 +86,8 @@ public class ItinerarioService {
         return ItinerarioMapper.toDTO(updated);
     }
 
-    public List<ItinerarioResponseDTO> listarAtivos() {
-        return ItinerarioMapper.toDTOList(itinerarioRepository.findByAtivo(true));
+    public List<ItinerarioResponseDTO> listarPorStatus(Boolean status) {
+        return ItinerarioMapper.toDTOList(itinerarioRepository.findByAtivo(status));
     }
 
     // Ativar/Inativar

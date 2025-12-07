@@ -11,6 +11,10 @@ MERGE INTO BAIRROS (id, nome) VALUES
 (10, 'Nova Esperança');
 
 
+MERGE INTO USUARIOS(ID, EMAILS, NOMES, SENHAS, ATIVO) VALUES
+(1,'admin@tester.com','Admin','$2a$10$i9nvgXU6siKpxaBaFKJ5X.awrCgyufGvWFqQBm4vkB2wa6pc/K7p6',TRUE  );
+
+
 MERGE INTO RUAS_CONEXOES (id, bairros_origens_id, NOMES, bairros_destinos_id, distancias_km) VALUES
 (1, 1,'Centro - Jardim das Flores',2, 2.5),
 (2, 1,'Centro - Vila Nova',3, 3.8),
@@ -79,6 +83,11 @@ WHERE NOT EXISTS (SELECT 1 FROM PONTO_RESIDUOS);
 -- Para BAIRROS
 ALTER TABLE BAIRROS ALTER COLUMN ID RESTART WITH (
 SELECT COALESCE(MAX(ID), 0) + 1 FROM BAIRROS
+    );
+
+-- Para USUARIOS
+ALTER TABLE USUARIOS ALTER COLUMN ID RESTART WITH (
+SELECT COALESCE(MAX(ID), 0) + 1 FROM USUARIOS
     );
 
 -- Para RUAS_CONEXOES

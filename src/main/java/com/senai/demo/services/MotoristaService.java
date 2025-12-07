@@ -54,8 +54,8 @@ public class MotoristaService {
         return MotoristaMapper.toDTO(motorista);
     }
 
-    public List<MotoristaResponseDTO> listarAtivos() {
-        return MotoristaMapper.toDTOList(motoristaRepository.findByAtivo(true));
+    public List<MotoristaResponseDTO> listarPorStatus(Boolean status) {
+        return MotoristaMapper.toDTOList(motoristaRepository.findByAtivo(status));
     }
 
     // Ativar/Inativar motorista

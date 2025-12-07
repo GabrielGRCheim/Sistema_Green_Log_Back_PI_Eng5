@@ -1,7 +1,9 @@
 package com.senai.demo.services;
 
+import com.senai.demo.dtos.MotoristaResponseDTO;
 import com.senai.demo.dtos.UsuarioRequestDTO;
 import com.senai.demo.dtos.UsuarioResponseDTO;
+import com.senai.demo.mappers.MotoristaMapper;
 import com.senai.demo.mappers.UsuarioMapper;
 import com.senai.demo.models.entities.Usuario;
 import com.senai.demo.models.exceptions.NotFoundException;
@@ -38,10 +40,9 @@ public class UsuarioService {
         return UsuarioMapper.toDTOList(repository.findAll());
     }
 
-    public List<UsuarioResponseDTO> listarAtivos() {
-        return UsuarioMapper.toDTOList(repository.findByAtivo(true));
+    public List<UsuarioResponseDTO> listarPorStatus(Boolean status) {
+        return UsuarioMapper.toDTOList(repository.findByAtivo(status));
     }
-
     // Ativar/Inativar
     public UsuarioResponseDTO alterarStatus(Long id) {
         Usuario usuario = repository.findById(id)

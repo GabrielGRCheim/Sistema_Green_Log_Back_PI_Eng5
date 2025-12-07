@@ -49,9 +49,11 @@ public class MotoristaController {
     }
 
     // Listar todos Ativos
-    @GetMapping("/ativos")
-    public ResponseEntity<List<MotoristaResponseDTO>> listarAtivos() {
-        return ResponseEntity.ok(motoristaService.listarAtivos());
+    @GetMapping("/Status")
+    public ResponseEntity<List<MotoristaResponseDTO>> listarPorStatus(
+            @RequestParam Boolean status
+    ) {
+        return ResponseEntity.ok(motoristaService.listarPorStatus(status));
     }
 
 
