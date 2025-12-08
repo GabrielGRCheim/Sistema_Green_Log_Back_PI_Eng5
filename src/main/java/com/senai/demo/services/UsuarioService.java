@@ -65,7 +65,10 @@ public class UsuarioService {
                 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado com ID: " + id));
 
         UsuarioMapper.updateEntity(entity, dto);
-
+        // Atualizar senha somente se for enviada e não estiver vazia
+        if (dto.getSenha() != null && !dto.getSenha().trim().isEmpty()) {
+            entity.setSenha(passwordEncoder.encode(dto.getSenha()));
+        }
         Usuario updated = repository.save(entity);
         return UsuarioMapper.toDTO(updated);
     }
