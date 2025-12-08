@@ -2,6 +2,7 @@ package com.senai.demo.controllers;
 
 import com.senai.demo.dtos.MotoristaRequestDTO;
 import com.senai.demo.dtos.MotoristaResponseDTO;
+import com.senai.demo.dtos.PontoColetaResponseDTO;
 import com.senai.demo.services.MotoristaService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -47,8 +48,17 @@ public class MotoristaController {
         return ResponseEntity.ok(motoristaService.atualizar(id, dto));
     }
 
+    // Listar todos Ativos
+    @GetMapping("/Status")
+    public ResponseEntity<List<MotoristaResponseDTO>> listarPorStatus(
+            @RequestParam Boolean status
+    ) {
+        return ResponseEntity.ok(motoristaService.listarPorStatus(status));
+    }
+
+
     // Alterar status (ativar/inativar)
-    @PatchMapping("/{id}/status")
+    @PatchMapping("/status/{id}")
     public ResponseEntity<MotoristaResponseDTO> alterarStatus(@PathVariable Long id) {
         return ResponseEntity.ok(motoristaService.alterarStatus(id));
     }

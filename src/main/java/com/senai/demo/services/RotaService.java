@@ -1,7 +1,9 @@
 package com.senai.demo.services;
 
+import com.senai.demo.dtos.MotoristaResponseDTO;
 import com.senai.demo.dtos.RotaRequestDTO;
 import com.senai.demo.dtos.RotaResponseDTO;
+import com.senai.demo.mappers.MotoristaMapper;
 import com.senai.demo.mappers.RotaMapper;
 import com.senai.demo.models.entities.*;
 import com.senai.demo.models.enums.TipoResiduo;
@@ -108,8 +110,8 @@ public class RotaService {
 
         return RotaMapper.toDTO(rotaRepository.save(rota));
     }
-    public List<RotaResponseDTO> listarAtivos() {
-        return RotaMapper.toDTOList(rotaRepository.findByAtivo(true));
+    public List<RotaResponseDTO> listarPorStatus(Boolean status) {
+        return RotaMapper.toDTOList(rotaRepository.findByAtivo(status));
     }
 
     // Ativar/Inativar

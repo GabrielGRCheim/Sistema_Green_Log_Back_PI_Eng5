@@ -2,6 +2,7 @@ package com.senai.demo.controllers;
 
 import com.senai.demo.dtos.ItinerarioRequestDTO;
 import com.senai.demo.dtos.ItinerarioResponseDTO;
+import com.senai.demo.dtos.MotoristaResponseDTO;
 import com.senai.demo.dtos.PontoColetaResponseDTO;
 import com.senai.demo.services.ItinerarioService;
 import org.springframework.http.ResponseEntity;
@@ -30,10 +31,11 @@ public class ItinerarioController {
         return ResponseEntity.ok(itinerarioService.listarTodos());
     }
 
-    // Listar todos Ativos
-    @GetMapping("/ativos")
-    public ResponseEntity<List<ItinerarioResponseDTO>> listarAtivos() {
-        return ResponseEntity.ok(itinerarioService.listarAtivos());
+    @GetMapping("/Status")
+    public ResponseEntity<List<ItinerarioResponseDTO>> listarPorStatus(
+            @RequestParam Boolean status
+    ) {
+        return ResponseEntity.ok(itinerarioService.listarPorStatus(status));
     }
 
     @GetMapping("/{id}")
@@ -42,7 +44,7 @@ public class ItinerarioController {
     }
 
     // Atualizar Status
-    @PutMapping("/status/{id}")
+    @PatchMapping("/status/{id}")
     public ResponseEntity<ItinerarioResponseDTO> alterarStatus(@PathVariable Long id) {
         return ResponseEntity.ok(itinerarioService.alterarStatus(id));
     }

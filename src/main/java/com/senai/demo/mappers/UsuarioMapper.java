@@ -40,11 +40,6 @@ public class UsuarioMapper {
 
         usuario.setNome(dto.getNome());
         usuario.setEmail(dto.getEmail());
-
-        // Atualizar senha somente se for enviada e não estiver vazia
-        if (dto.getSenha() != null && !dto.getSenha().trim().isEmpty()) {
-            usuario.setSenha(dto.getSenha());
-        }
     }
 
 

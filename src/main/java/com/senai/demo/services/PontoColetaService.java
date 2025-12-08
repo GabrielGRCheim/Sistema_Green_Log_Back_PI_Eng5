@@ -1,7 +1,9 @@
 package com.senai.demo.services;
 
+import com.senai.demo.dtos.MotoristaResponseDTO;
 import com.senai.demo.dtos.PontoColetaRequestDTO;
 import com.senai.demo.dtos.PontoColetaResponseDTO;
+import com.senai.demo.mappers.MotoristaMapper;
 import com.senai.demo.mappers.PontoColetaMapper;
 import com.senai.demo.models.entities.Bairro;
 import com.senai.demo.models.entities.PontoColeta;
@@ -76,8 +78,8 @@ public class PontoColetaService {
         return PontoColetaMapper.toDTO(updated);
     }
 
-    public List<PontoColetaResponseDTO> listarAtivos() {
-        return PontoColetaMapper.toDTOList(pontoColetaRepository.findByAtivo(true));
+    public List<PontoColetaResponseDTO> listarPorStatus(Boolean status) {
+        return PontoColetaMapper.toDTOList(pontoColetaRepository.findByAtivo(status));
     }
 
     // Ativar/Inativar
