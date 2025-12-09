@@ -2,9 +2,8 @@ package com.senai.demo.dtos;
 
 import com.senai.demo.models.entities.Motorista;
 import com.senai.demo.models.enums.TipoResiduo;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.*;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.List;
 
@@ -19,6 +18,7 @@ public class CaminhaoRequestDTO {
 
     private Long motorista_id;
 
+    @Positive
     private Double capacidade;
 
     @NotNull(message = "Residuo é obrigatorio")

@@ -3,6 +3,7 @@ package com.senai.demo.dtos;
 import com.senai.demo.models.entities.Caminhao;
 import com.senai.demo.models.entities.Itinerario;
 import com.senai.demo.models.entities.Rota;
+import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -14,6 +15,7 @@ public class ItinerarioRequestDTO {
     private Long rotaId;
 
     @NotNull(message = "Data é obrigatória")
+    @FutureOrPresent
     private LocalDate dia;
 
     public ItinerarioRequestDTO() {}

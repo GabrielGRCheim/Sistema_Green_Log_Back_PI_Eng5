@@ -2,9 +2,7 @@ package com.senai.demo.services;
 
 import com.senai.demo.dtos.ItinerarioRequestDTO;
 import com.senai.demo.dtos.ItinerarioResponseDTO;
-import com.senai.demo.dtos.MotoristaResponseDTO;
 import com.senai.demo.mappers.ItinerarioMapper;
-import com.senai.demo.mappers.MotoristaMapper;
 import com.senai.demo.models.entities.Caminhao;
 import com.senai.demo.models.entities.Itinerario;
 import com.senai.demo.models.entities.Rota;
@@ -16,6 +14,7 @@ import com.senai.demo.models.repositorys.ItinerarioRepository;
 import com.senai.demo.models.repositorys.RotaRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -43,6 +42,10 @@ public class ItinerarioService {
 
         if (itinerarioRepository.existsByRota_CaminhaoDesignado_IdAndDia(caminhao.getId(), dto.getDia())) {
             throw new BadRequestException("Este caminhão já possui itinerário registrado para este dia.");
+        }
+
+        if(dto.getDia().isBefore(LocalDate.now())){
+            throw new BadRequestException("Não pode cadastrar para uma data passada");
         }
 
         Itinerario entity = ItinerarioMapper.toEntity(dto);
